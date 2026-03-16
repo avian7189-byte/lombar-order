@@ -75,41 +75,46 @@
                         <p class="text-xs text-gray-400">已選 <span id="total-qty" class="font-bold text-red-800">0</span> 瓶 | <span id="display-shipping">運費 $150</span></p>
                     </div>
                 </div>
-                <div id="gift-select-container" class="hidden w-full lg:w-64">
-                    <select id="gift-choice" class="w-full border-2 border-red-100 rounded-xl p-3 text-sm bg-white font-bold text-red-900">
-                        <option value="">-- 請選擇方案贈酒 --</option>
-                    </select>
+                
+                <div id="gift-select-container" class="hidden w-full lg:w-72">
+                    <div class="bg-red-50 p-2 rounded-xl border border-red-200">
+                        <p class="text-[10px] text-red-800 font-bold mb-1 ml-1 uppercase">🎁 請選擇您的方案贈酒：</p>
+                        <select id="gift-choice" class="w-full border-none rounded-lg p-2 text-sm bg-white font-bold text-red-900 focus:ring-2 focus:ring-red-800">
+                            </select>
+                    </div>
                 </div>
+
                 <button onclick="goToInfo()" id="main-btn" class="w-full lg:w-64 bg-red-800 text-white py-4 rounded-2xl font-bold text-xl shadow-xl active:scale-95 transition-all">下一步：填寫資訊</button>
             </div>
         </div>
     </div>
 
-    <div id="success-page" class="hidden fixed inset-0 bg-stone-100 z-[100] overflow-y-auto p-4">
+    <div id="success-page" class="hidden fixed inset-0 bg-stone-100 z-[100] overflow-y-auto p-4 text-gray-800">
         <div class="max-w-md mx-auto my-6 bg-white rounded-3xl shadow-2xl overflow-hidden border-2 border-red-900" id="receipt">
             <div class="bg-red-950 text-white p-6 text-center">
                 <h2 class="text-2xl font-black tracking-widest">LOMBAR 訂購明細</h2>
-                <p class="text-xs text-red-200 mt-1">請截圖此畫面留存紀錄</p>
+                <p class="text-xs text-red-200 mt-1 uppercase">Order Confirmation</p>
             </div>
-            <div class="p-6 space-y-4 text-gray-800">
-                <div class="flex justify-between border-b pb-2"><span>客戶：</span><span id="res-name" class="font-bold"></span></div>
-                <div class="flex justify-between border-b pb-2"><span>電話：</span><span id="res-phone" class="font-bold"></span></div>
-                <div class="flex flex-col border-b pb-2"><span>收件地址：</span><span id="res-address" class="font-medium text-sm mt-1"></span></div>
-                <div id="res-tax-area" class="flex justify-between border-b pb-2 hidden"><span>統編/抬頭：</span><span id="res-taxId" class="font-bold"></span></div>
-                <div class="flex justify-between border-b pb-2"><span>付款方式：</span><span id="res-payMethod" class="font-bold"></span></div>
-                <div class="flex justify-between border-b pb-2 text-red-800"><span>適用方案：</span><span id="res-plan" class="font-bold"></span></div>
+            <div class="p-6 space-y-4">
+                <div class="flex justify-between border-b pb-2 text-sm"><span>客戶姓名：</span><span id="res-name" class="font-bold"></span></div>
+                <div class="flex justify-between border-b pb-2 text-sm"><span>電話：</span><span id="res-phone" class="font-bold"></span></div>
+                <div class="flex flex-col border-b pb-2 text-sm"><span>收件地址：</span><span id="res-address" class="font-medium mt-1"></span></div>
+                <div id="res-tax-area" class="flex justify-between border-b pb-2 text-sm hidden"><span>統編/抬頭：</span><span id="res-taxId" class="font-bold"></span></div>
+                <div class="flex justify-between border-b pb-2 text-sm"><span>付款方式：</span><span id="res-payMethod" class="font-bold"></span></div>
+                <div class="flex justify-between border-b pb-2 text-red-800 text-sm"><span>適用方案：</span><span id="res-plan" class="font-bold"></span></div>
                 <div class="space-y-1">
-                    <p class="text-sm text-gray-400">訂購清單：</p>
+                    <p class="text-xs text-gray-400">購買產品明細：</p>
                     <p id="res-items" class="text-sm font-medium leading-relaxed"></p>
                 </div>
-                <div class="bg-stone-50 p-3 rounded-lg flex justify-between items-center">
-                    <span>應付總額：</span><span class="text-2xl font-black text-red-900">$<span id="res-total"></span></span>
+                <div id="res-gift-area" class="hidden bg-blue-50 p-3 rounded-xl border border-blue-100">
+                    <p class="text-[10px] text-blue-800 font-bold mb-1 uppercase tracking-tighter">🏆 方案加贈好禮：</p>
+                    <p id="res-gift" class="text-sm font-bold text-blue-900"></p>
                 </div>
-                <div id="res-gift-area" class="hidden flex justify-between text-blue-700 bg-blue-50 p-2 rounded">
-                    <span>方案贈品：</span><span id="res-gift" class="font-bold"></span>
+                <div class="bg-stone-50 p-4 rounded-xl flex justify-between items-center border border-stone-100">
+                    <span class="text-sm font-bold">應付總額：</span><span class="text-2xl font-black text-red-900">$<span id="res-total"></span></span>
                 </div>
-                <div id="bank-info-box" class="bg-red-50 p-4 rounded-xl space-y-2 border border-red-100 text-[10px]">
-                    <p class="font-bold text-red-900 text-sm">🏦 匯款帳戶資訊 (如選匯款)</p>
+                <div id="bank-info-box" class="bg-red-50 p-4 rounded-xl border border-red-100 text-[10px] leading-relaxed">
+                    <p class="font-bold text-red-900 text-sm mb-1 uppercase">🏦 匯款資訊</p>
                     <p>銀行：玉山銀行 (808) 仁德分行 | 戶名：有集貿易有限公司</p>
                     <p>帳號：1137-940-267329</p>
                 </div>
@@ -148,8 +153,20 @@
             ]
         };
 
+        // 定義可供選擇的贈酒清單 ($1,050 以下)
+        const GIFT_OPTIONS_LOW = [
+            "NERO 經典紅酒 (特惠贈禮)",
+            "芙歐蕾 玫瑰黑織 (750ml)",
+            "三韻之丹 (750ml)",
+            "卡塔拉托 柑香白影 (750ml)",
+            "格里洛 海風芬馥 (750ml)",
+            "三韻之翡 (750ml)",
+            "蘇阿爾特札・空光 (750ml)",
+            "蘇阿爾特札・空光 ROSÉ (750ml)"
+        ];
+
         let cart = {};
-        let currentPlanFull = "方案 A (享 9 折優惠)";
+        let currentPlanFull = "";
 
         function switchTab(type) {
             document.querySelectorAll('[id^="tab-"]').forEach(el => el.classList.remove('tab-active'));
@@ -181,8 +198,8 @@
             let totalQty = 0; let rawPrice = 0;
             let items = Object.values(cart).filter(i => i.qty > 0);
             
-            let lowPriceQty = 0;  // 980-2880 區間數量
-            let highPriceQty = 0; // 3600-7200 區間數量
+            let lowPriceQty = 0; 
+            let highPriceQty = 0; 
             
             items.forEach(i => { 
                 totalQty += i.qty; 
@@ -191,19 +208,17 @@
                 if (i.price >= 3600 && i.price <= 7200) highPriceQty += i.qty;
             });
 
-            let plan = 'A'; let discount = 0.9; let discText = "享 9 折優惠"; let shipping = 150; let giftOptions = [];
+            let plan = 'A'; let discount = 0.9; let discText = "享 9 折優惠"; let shipping = 150; 
+            let giftList = [];
 
-            // 優先權 1: 方案 D (6瓶)
             if (totalQty >= 6) {
                 plan = 'D'; discount = 0.8; discText = "全單 8 折 (滿 6 瓶)"; shipping = 0;
-                giftOptions = ["NERO 經典紅酒一瓶", "自選 $1,050 以內任一酒款"];
+                giftList = GIFT_OPTIONS_LOW;
             } 
-            // 優先權 2: 方案 C (高價 3 瓶)
             else if (highPriceQty >= 3) {
                 plan = 'C'; discount = 0.85; discText = "全單 8.5 折 (高價滿 3 瓶)"; shipping = 0;
-                giftOptions = ["特選白酒一瓶", "特選紅酒一瓶"];
+                giftList = ["特選紅酒 (一瓶)", "特選白酒 (一瓶)"];
             }
-            // 優先權 3: 方案 B (平價 3 瓶)
             else if (lowPriceQty >= 3) {
                 plan = 'B'; discount = 0.85; discText = "全單 8.5 折 (平價滿 3 瓶)"; shipping = 0;
             }
@@ -218,10 +233,15 @@
             document.getElementById('display-shipping').innerText = plan === 'A' ? '加運費 $150' : '免運費';
             
             const giftContainer = document.getElementById('gift-select-container');
-            if (giftOptions.length > 0) {
+            const giftSelect = document.getElementById('gift-choice');
+            if (giftList.length > 0) {
                 giftContainer.classList.remove('hidden');
-                document.getElementById('gift-choice').innerHTML = '<option value="">-- 請選擇方案贈酒 --</option>' + giftOptions.map(g => `<option value="${g}">${g}</option>`).join('');
-            } else { giftContainer.classList.add('hidden'); }
+                giftSelect.innerHTML = '<option value="">-- 點此選擇指定贈品 --</option>' + 
+                    giftList.map(g => `<option value="${g}">${g}</option>`).join('');
+            } else { 
+                giftContainer.classList.add('hidden'); 
+                giftSelect.innerHTML = "";
+            }
         }
 
         function toggleBankInput(show) { document.getElementById('bank-input-area').classList.toggle('hidden', !show); }
@@ -244,12 +264,12 @@
             const gift = document.getElementById('gift-choice').value;
             const giftHidden = document.getElementById('gift-select-container').classList.contains('hidden');
             
-            if (!name || !phone || !addr || !payMethod) return alert("請完整填寫收件資訊與付款方式");
-            if (payMethod === '匯款' && !bankLastFive) return alert("匯款請提供後五碼");
-            if (!giftHidden && !gift) return alert("請先選擇方案贈酒");
+            if (!name || !phone || !addr || !payMethod) return alert("請完整填寫配送資訊與付款方式");
+            if (payMethod === '匯款' && !bankLastFive) return alert("匯款請提供後五碼以便對帳");
+            if (!giftHidden && !gift) return alert("您已達成贈獎資格，請選擇一款贈酒！");
 
             const btn = document.getElementById('main-btn');
-            btn.innerText = "訂單傳送中..."; btn.disabled = true;
+            btn.innerText = "訂單上傳中..."; btn.disabled = true;
 
             const itemsStr = Object.values(cart).filter(i => i.qty > 0).map(i => `${i.name}x${i.qty}`).join(', ');
 
@@ -282,7 +302,7 @@
                 document.getElementById('success-page').classList.remove('hidden');
                 window.scrollTo(0,0);
             } catch (e) {
-                alert("傳送失敗，請連繫客服");
+                alert("傳送失敗，請聯繫客服");
                 btn.innerText = "確認並送出預購單"; btn.disabled = false;
             }
         }
