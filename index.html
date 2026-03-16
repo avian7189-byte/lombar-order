@@ -9,14 +9,14 @@
         body { font-family: "Heiti TC", "Microsoft JhengHei", sans-serif; background: #fdfdfb; }
         .tab-active { border-bottom: 4px solid #7f1d1d; color: #7f1d1d; font-weight: bold; }
         .wine-card { transition: all 0.3s ease; border: 1px solid #eee; }
-        .wine-card:hover { transform: translateY(-2px); border-color: #7f1d1d; }
+        .wine-card:hover { transform: translateY(-2px); border-color: #7f1d1d; box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
     </style>
 </head>
 <body class="pb-40">
 
     <div id="order-page" class="max-w-4xl mx-auto px-4">
         <header class="bg-red-950 text-white p-10 rounded-b-[3rem] shadow-2xl text-center mb-6">
-            <h1 class="text-3xl font-black tracking-widest uppercase text-white">TENUTE LOMBARDO</h1>
+            <h1 class="text-3xl font-black tracking-widest uppercase">TENUTE LOMBARDO</h1>
             <p class="text-red-200 text-xs mt-2 tracking-widest opacity-80 uppercase">倫巴杜酒莊 官方預購系統</p>
         </header>
 
@@ -24,7 +24,7 @@
             <a href="https://drive.google.com/drive/u/0/folders/1keec5-USj4P-4Z4WOIWJjY39y8Uo-Ffx" target="_blank" class="text-red-800 text-sm font-bold underline">🍷 點此開啟產品照片型錄相簿</a>
         </div>
 
-        <div class="flex justify-center space-x-4 md:space-x-8 mb-6 border-b border-gray-100 sticky top-0 bg-white/90 backdrop-blur-md z-40 py-4">
+        <div class="flex justify-center space-x-8 mb-6 border-b border-gray-100 sticky top-0 bg-white/90 backdrop-blur-md z-40 py-4">
             <button onclick="switchTab('red')" id="tab-red" class="tab-active pb-2 px-2 transition-all">紅酒</button>
             <button onclick="switchTab('white')" id="tab-white" class="pb-2 px-2 transition-all">白酒</button>
             <button onclick="switchTab('sparkling')" id="tab-sparkling" class="pb-2 px-2 transition-all">氣泡酒</button>
@@ -36,35 +36,29 @@
             <h2 class="text-xl font-bold text-gray-800 mb-6 flex items-center gap-2">
                 <span class="w-1.5 h-6 bg-red-800 rounded-full"></span> 配送與付款資訊
             </h2>
-            
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <input type="text" id="custName" placeholder="客戶姓名 (必填)" class="w-full bg-stone-50 p-4 rounded-xl outline-none focus:ring-2 focus:ring-red-800/20">
                 <input type="tel" id="custPhone" placeholder="聯絡電話 (必填)" class="w-full bg-stone-50 p-4 rounded-xl outline-none focus:ring-2 focus:ring-red-800/20">
             </div>
-
             <div class="space-y-4 mb-6">
                 <input type="text" id="custAddress" placeholder="收件地址 (必填)" class="w-full bg-stone-50 p-4 rounded-xl outline-none focus:ring-2 focus:ring-red-800/20">
                 <input type="text" id="custTaxId" placeholder="公司統編 / 抬頭 (選填)" class="w-full bg-stone-50 p-4 rounded-xl outline-none focus:ring-2 focus:ring-red-800/20">
             </div>
-            
             <div class="space-y-4 border-t pt-6">
                 <p class="font-bold text-gray-700">付款方式：</p>
                 <div class="grid grid-cols-3 gap-3">
-                    <label class="flex flex-col items-center gap-2 bg-stone-50 p-3 rounded-xl cursor-pointer border-2 border-transparent has-[:checked]:border-red-800 transition shadow-sm text-sm">
-                        <input type="radio" name="payMethod" value="現金" onchange="toggleBankInput(false)"> 
-                        <span>現金</span>
+                    <label class="flex flex-col items-center p-3 bg-stone-50 rounded-xl cursor-pointer border-2 border-transparent has-[:checked]:border-red-800 shadow-sm text-sm transition">
+                        <input type="radio" name="payMethod" value="現金" onchange="toggleBankInput(false)"><span>現金</span>
                     </label>
-                    <label class="flex flex-col items-center gap-2 bg-stone-50 p-3 rounded-xl cursor-pointer border-2 border-transparent has-[:checked]:border-red-800 transition shadow-sm text-sm">
-                        <input type="radio" name="payMethod" value="匯款" onchange="toggleBankInput(true)"> 
-                        <span>匯款</span>
+                    <label class="flex flex-col items-center p-3 bg-stone-50 rounded-xl cursor-pointer border-2 border-transparent has-[:checked]:border-red-800 shadow-sm text-sm transition">
+                        <input type="radio" name="payMethod" value="匯款" onchange="toggleBankInput(true)"><span>匯款</span>
                     </label>
-                    <label class="flex flex-col items-center gap-2 bg-stone-50 p-3 rounded-xl cursor-pointer border-2 border-transparent has-[:checked]:border-red-800 transition shadow-sm text-sm">
-                        <input type="radio" name="payMethod" value="貨到付款" onchange="toggleBankInput(false)"> 
-                        <span>貨到付款</span>
+                    <label class="flex flex-col items-center p-3 bg-stone-50 rounded-xl cursor-pointer border-2 border-transparent has-[:checked]:border-red-800 shadow-sm text-sm transition">
+                        <input type="radio" name="payMethod" value="貨到付款" onchange="toggleBankInput(false)"><span>貨到付款</span>
                     </label>
                 </div>
                 <div id="bank-input-area" class="hidden animate-in fade-in slide-in-from-top-2">
-                    <input type="text" id="bankLastFive" placeholder="請輸入匯款帳號後五碼 (匯款才需填寫)" class="w-full bg-red-50 p-4 rounded-xl outline-none border border-red-100">
+                    <input type="text" id="bankLastFive" placeholder="請輸入匯款帳號後五碼" class="w-full bg-red-50 p-4 rounded-xl outline-none border border-red-100">
                 </div>
             </div>
         </section>
@@ -73,7 +67,7 @@
             <div class="max-w-4xl mx-auto flex flex-col lg:flex-row justify-between items-center gap-4">
                 <div class="text-left w-full lg:w-auto">
                     <div class="flex items-center gap-2 mb-1">
-                        <span id="display-plan-label" class="bg-red-900 text-white text-[10px] px-2 py-0.5 rounded font-bold">方案 A</span>
+                        <span id="display-plan-label" class="bg-red-900 text-white text-[10px] px-2 py-0.5 rounded font-bold uppercase">方案 A</span>
                         <span id="display-discount-label" class="text-red-700 text-sm font-black">享 9 折優惠</span>
                     </div>
                     <div class="flex items-baseline gap-2">
@@ -81,16 +75,12 @@
                         <p class="text-xs text-gray-400">已選 <span id="total-qty" class="font-bold text-red-800">0</span> 瓶 | <span id="display-shipping">運費 $150</span></p>
                     </div>
                 </div>
-                
                 <div id="gift-select-container" class="hidden w-full lg:w-64">
-                    <select id="gift-choice" class="w-full border-2 border-red-100 rounded-xl p-3 text-sm bg-white">
+                    <select id="gift-choice" class="w-full border-2 border-red-100 rounded-xl p-3 text-sm bg-white font-bold text-red-900">
                         <option value="">-- 請選擇贈酒 --</option>
                     </select>
                 </div>
-
-                <button onclick="goToInfo()" id="main-btn" class="w-full lg:w-64 bg-red-800 text-white py-4 rounded-2xl font-bold text-xl shadow-xl active:scale-95">
-                    下一步：填寫資訊
-                </button>
+                <button onclick="goToInfo()" id="main-btn" class="w-full lg:w-64 bg-red-800 text-white py-4 rounded-2xl font-bold text-xl shadow-xl active:scale-95 transition-all">下一步：填寫資訊</button>
             </div>
         </div>
     </div>
@@ -125,7 +115,7 @@
                 </div>
             </div>
         </div>
-        <div class="text-center mt-6">
+        <div class="text-center mt-6 pb-10">
             <button onclick="location.reload()" class="bg-gray-800 text-white px-8 py-3 rounded-full font-bold shadow-lg">建立新訂單</button>
         </div>
     </div>
@@ -190,15 +180,32 @@
         function calculate() {
             let totalQty = 0; let rawPrice = 0;
             let items = Object.values(cart).filter(i => i.qty > 0);
-            items.forEach(i => { totalQty += i.qty; rawPrice += (i.qty * i.price); });
+            
+            let catB_Qty = 0; // 980~2880
+            let catD_Qty = 0; // 3600~7200
+            
+            items.forEach(i => { 
+                totalQty += i.qty; 
+                rawPrice += (i.qty * i.price); 
+                if (i.price >= 980 && i.price <= 2880) catB_Qty += i.qty;
+                if (i.price >= 3600 && i.price <= 7200) catD_Qty += i.qty;
+            });
 
             let plan = 'A'; let discount = 0.9; let discText = "享 9 折優惠"; let shipping = 150; let giftOptions = [];
-            if (totalQty >= 6) { plan = 'D'; discount = 0.8; discText = "全系列 8 折優惠"; shipping = 0; giftOptions = ["NERO 經典紅酒一瓶", "自選 $1,050 以內任一酒款"]; } 
-            else if (totalQty === 3) {
-                const allPremium = items.every(i => i.price >= 3600);
-                const allBasic = items.every(i => i.price >= 980 && i.price <= 2800);
-                if (allPremium) { plan = 'C'; discount = 0.85; discText = "享 8.5 折優惠"; shipping = 0; giftOptions = ["加贈特選酒款一瓶 ($980-$1,980)"]; } 
-                else if (allBasic) { plan = 'B'; discount = 0.85; discText = "享 8.5 折優惠"; shipping = 0; }
+
+            // 優先判定 E: 任選 6 瓶
+            if (totalQty >= 6) {
+                plan = 'E'; discount = 0.8; discText = "全系列任選 8 折優惠"; shipping = 0;
+                giftOptions = ["NERO 經典紅酒一瓶", "自選 $1,050 以內任一酒款"];
+            } 
+            // 判定 D: 高價位 3 瓶
+            else if (catD_Qty >= 3) {
+                plan = 'D'; discount = 0.85; discText = "高價系列 8.5 折優惠"; shipping = 0;
+                giftOptions = ["特選白酒一瓶", "特選紅酒一瓶"];
+            }
+            // 判定 B: 低價位 3 瓶
+            else if (catB_Qty >= 3) {
+                plan = 'B'; discount = 0.85; discText = "精選系列 8.5 折優惠"; shipping = 0;
             }
 
             currentPlanFull = "方案 " + plan + " (" + discText + ")";
@@ -213,13 +220,11 @@
             const giftContainer = document.getElementById('gift-select-container');
             if (giftOptions.length > 0) {
                 giftContainer.classList.remove('hidden');
-                document.getElementById('gift-choice').innerHTML = '<option value="">-- 請選擇贈酒 --</option>' + giftOptions.map(g => `<option value="${g}">${g}</option>`).join('');
+                document.getElementById('gift-choice').innerHTML = '<option value="">-- 請選擇方案贈酒 --</option>' + giftOptions.map(g => `<option value="${g}">${g}</option>`).join('');
             } else { giftContainer.classList.add('hidden'); }
         }
 
-        function toggleBankInput(show) { 
-            document.getElementById('bank-input-area').classList.toggle('hidden', !show); 
-        }
+        function toggleBankInput(show) { document.getElementById('bank-input-area').classList.toggle('hidden', !show); }
 
         function goToInfo() {
             if (document.getElementById('display-total').innerText == "0") return alert("請先選擇酒款");
@@ -237,9 +242,11 @@
             const payMethod = document.querySelector('input[name="payMethod"]:checked')?.value;
             const bankLastFive = document.getElementById('bankLastFive').value;
             const gift = document.getElementById('gift-choice').value;
+            const giftHidden = document.getElementById('gift-select-container').classList.contains('hidden');
             
             if (!name || !phone || !addr || !payMethod) return alert("請填寫姓名、電話、地址並選擇付款方式");
-            if (payMethod === '匯款' && !bankLastFive) return alert("選擇匯款請提供後五碼以便對帳");
+            if (payMethod === '匯款' && !bankLastFive) return alert("請輸入後五碼以便對帳");
+            if (!giftHidden && !gift) return alert("您符合贈獎資格，請選擇贈酒！");
 
             const btn = document.getElementById('main-btn');
             btn.innerText = "訂單傳送中..."; btn.disabled = true;
@@ -255,8 +262,6 @@
 
             try {
                 await fetch(GOOGLE_SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(data) });
-                
-                // 填入成功明細
                 document.getElementById('res-name').innerText = name;
                 document.getElementById('res-phone').innerText = phone;
                 document.getElementById('res-address').innerText = addr;
@@ -272,10 +277,7 @@
                     document.getElementById('res-gift-area').classList.remove('hidden');
                     document.getElementById('res-gift').innerText = gift;
                 }
-                
-                // 只有「匯款」才顯示帳戶資訊，減少干擾
                 if(payMethod !== '匯款') document.getElementById('bank-info-box').classList.add('hidden');
-
                 document.getElementById('order-page').classList.add('hidden');
                 document.getElementById('success-page').classList.remove('hidden');
                 window.scrollTo(0,0);
