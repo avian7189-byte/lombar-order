@@ -37,31 +37,37 @@
                 <span class="w-1.5 h-6 bg-red-800 rounded-full"></span> 訂購人與付款資訊
             </h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                <input type="text" id="custName" placeholder="客戶姓名" class="w-full bg-stone-50 p-4 rounded-xl outline-none focus:ring-2 focus:ring-red-800/20">
-                <input type="tel" id="custPhone" placeholder="聯絡電話" class="w-full bg-stone-50 p-4 rounded-xl outline-none focus:ring-2 focus:ring-red-800/20">
+                <input type="text" id="custName" placeholder="客戶姓名" class="w-full bg-stone-50 p-4 rounded-xl outline-none focus:ring-2 focus:ring-red-800/20 transition">
+                <input type="tel" id="custPhone" placeholder="聯絡電話" class="w-full bg-stone-50 p-4 rounded-xl outline-none focus:ring-2 focus:ring-red-800/20 transition">
             </div>
             
             <div class="space-y-4">
                 <p class="font-bold text-gray-700">付款方式：</p>
                 <div class="flex gap-4">
-                    <label class="flex items-center gap-2 bg-stone-50 p-3 rounded-xl flex-1 cursor-pointer border border-transparent has-[:checked]:border-red-800 transition">
+                    <label class="flex items-center gap-2 bg-stone-50 p-3 rounded-xl flex-1 cursor-pointer border-2 border-transparent has-[:checked]:border-red-800 transition shadow-sm">
                         <input type="radio" name="payMethod" value="現金" onchange="toggleBankInput(false)"> 現金
                     </label>
-                    <label class="flex items-center gap-2 bg-stone-50 p-3 rounded-xl flex-1 cursor-pointer border border-transparent has-[:checked]:border-red-800 transition">
+                    <label class="flex items-center gap-2 bg-stone-50 p-3 rounded-xl flex-1 cursor-pointer border-2 border-transparent has-[:checked]:border-red-800 transition shadow-sm">
                         <input type="radio" name="payMethod" value="匯款" onchange="toggleBankInput(true)"> 匯款
                     </label>
                 </div>
                 <div id="bank-input-area" class="hidden animate-in fade-in slide-in-from-top-2">
-                    <input type="text" id="bankLastFive" placeholder="請輸入匯款帳號後五碼" class="w-full bg-red-50 p-4 rounded-xl outline-none border border-red-100">
+                    <input type="text" id="bankLastFive" placeholder="請輸入匯款帳號後五碼" class="w-full bg-red-50 p-4 rounded-xl outline-none border border-red-100 placeholder:text-red-300">
                 </div>
             </div>
         </section>
 
         <div class="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-gray-100 p-6 z-50">
             <div class="max-w-4xl mx-auto flex flex-col lg:flex-row justify-between items-center gap-4">
-                <div class="text-left">
-                    <p class="text-3xl font-black text-red-900 leading-none">$<span id="display-total">0</span></p>
-                    <p class="text-xs text-gray-400 mt-1">已選 <span id="total-qty" class="font-bold text-red-800">0</span> 瓶 | <span id="display-shipping">運費 $150</span></p>
+                <div class="text-left w-full lg:w-auto">
+                    <div class="flex items-center gap-2 mb-1">
+                        <span id="display-plan-label" class="bg-red-900 text-white text-[10px] px-2 py-0.5 rounded font-bold">方案 A</span>
+                        <span id="display-discount-label" class="text-red-700 text-sm font-black">享 9 折優惠</span>
+                    </div>
+                    <div class="flex items-baseline gap-2">
+                        <p class="text-3xl font-black text-red-900 leading-none">$<span id="display-total">0</span></p>
+                        <p class="text-xs text-gray-400">已選 <span id="total-qty" class="font-bold text-red-800">0</span> 瓶 | <span id="display-shipping">運費 $150</span></p>
+                    </div>
                 </div>
                 
                 <div id="gift-select-container" class="hidden w-full lg:w-64">
@@ -70,7 +76,7 @@
                     </select>
                 </div>
 
-                <button onclick="goToInfo()" id="main-btn" class="w-full lg:w-64 bg-red-800 text-white py-4 rounded-2xl font-bold text-xl shadow-xl active:scale-95">
+                <button onclick="goToInfo()" id="main-btn" class="w-full lg:w-64 bg-red-800 text-white py-4 rounded-2xl font-bold text-xl shadow-xl active:scale-95 transition-all">
                     下一步：填寫資訊
                 </button>
             </div>
@@ -111,7 +117,8 @@
     </div>
 
     <script>
-        const GOOGLE_SCRIPT_URL = '您的_SCRIPT_URL'; // 這裡請填入您最新的 Apps Script 網址
+        // 請確保這裡填入您最新的 Apps Script 網址
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz_OPAqOBadxdYGcdH1DsulDI8YCap1bLWbSCre7B8rarLuIsrrOeUeH9vbXeskozx0Mg/exec';
 
         const WINES = {
             red: [
@@ -139,7 +146,8 @@
         };
 
         let cart = {};
-        let currentPlan = "A";
+        let currentPlanName = "方案 A";
+        let currentDiscountText = "享 9 折優惠";
 
         function switchTab(type) {
             document.querySelectorAll('[id^="tab-"]').forEach(el => el.classList.remove('tab-active'));
@@ -172,23 +180,31 @@
             let items = Object.values(cart).filter(i => i.qty > 0);
             items.forEach(i => { totalQty += i.qty; rawPrice += (i.qty * i.price); });
 
-            let plan = 'A'; let discount = 0.9; let shipping = 150; let giftOptions = [];
-            if (totalQty >= 6) { plan = 'D'; discount = 0.8; shipping = 0; giftOptions = ["NERO 經典紅酒一瓶", "自選 $1,050 以內任一酒款"]; } 
+            let plan = 'A'; let discount = 0.9; let discText = "享 9 折優惠"; let shipping = 150; let giftOptions = [];
+            
+            if (totalQty >= 6) { plan = 'D'; discount = 0.8; discText = "全系列 8 折優惠"; shipping = 0; giftOptions = ["NERO 經典紅酒一瓶", "自選 $1,050 以內任一酒款"]; } 
             else if (totalQty === 3) {
                 const allPremium = items.every(i => i.price >= 3600);
                 const allBasic = items.every(i => i.price >= 980 && i.price <= 2800);
-                if (allPremium) { plan = 'C'; discount = 0.85; shipping = 0; giftOptions = ["加贈特選酒款一瓶 ($980-$1,980)"]; } 
-                else if (allBasic) { plan = 'B'; discount = 0.85; shipping = 0; }
+                if (allPremium) { plan = 'C'; discount = 0.85; discText = "享 8.5 折優惠"; shipping = 0; giftOptions = ["加贈特選酒款一瓶 ($980-$1,980)"]; } 
+                else if (allBasic) { plan = 'B'; discount = 0.85; discText = "享 8.5 折優惠"; shipping = 0; }
             }
-            currentPlan = plan;
+
+            currentPlanName = "方案 " + plan;
+            currentDiscountText = discText;
+
             const finalTotal = totalQty > 0 ? Math.round(rawPrice * discount) + (plan === 'A' ? shipping : 0) : 0;
+            
+            document.getElementById('display-plan-label').innerText = currentPlanName;
+            document.getElementById('display-discount-label').innerText = currentDiscountText;
             document.getElementById('total-qty').innerText = totalQty;
             document.getElementById('display-total').innerText = finalTotal.toLocaleString();
             document.getElementById('display-shipping').innerText = plan === 'A' ? '運費 $150' : '免運 (含運費)';
+            
             const giftContainer = document.getElementById('gift-select-container');
             if (giftOptions.length > 0) {
                 giftContainer.classList.remove('hidden');
-                document.getElementById('gift-choice').innerHTML = '<option value="">-- 請選擇方案贈酒 --</option>' + giftOptions.map(g => `<option value="${g}">${g}</option>`).join('');
+                document.getElementById('gift-choice').innerHTML = '<option value="">-- 請選擇贈酒 --</option>' + giftOptions.map(g => `<option value="${g}">${g}</option>`).join('');
             } else { giftContainer.classList.add('hidden'); }
         }
 
@@ -213,8 +229,8 @@
             const gift = document.getElementById('gift-choice').value;
             const total = document.getElementById('display-total').innerText;
             
-            if (!name || !phone || !payMethod) return alert("請完整填寫姓名、電話與付款方式");
-            if (payMethod === '匯款' && !bankLastFive) return alert("匯款請提供後五碼");
+            if (!name || !phone || !payMethod) return alert("請填寫姓名、電話並選擇付款方式");
+            if (payMethod === '匯款' && !bankLastFive) return alert("匯款請提供後五碼以便對帳");
 
             const btn = document.getElementById('main-btn');
             btn.innerText = "訂單傳送中..."; btn.disabled = true;
@@ -223,17 +239,18 @@
 
             const data = {
                 customerName: name, customerPhone: phone, total: total, 
-                plan: currentPlan, gift: gift || "無", itemsDetail: itemsStr,
+                plan: currentPlanName + " (" + currentDiscountText + ")", 
+                gift: gift || "無", itemsDetail: itemsStr,
                 paymentMethod: payMethod, bankLastFive: bankLastFive
             };
 
             try {
                 await fetch(GOOGLE_SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(data) });
                 
-                // 顯示截圖畫面
+                // 填入明細表資料
                 document.getElementById('res-name').innerText = name;
                 document.getElementById('res-phone').innerText = phone;
-                document.getElementById('res-plan').innerText = "方案 " + currentPlan;
+                document.getElementById('res-plan').innerText = currentPlanName + " (" + currentDiscountText + ")";
                 document.getElementById('res-items').innerText = itemsStr;
                 document.getElementById('res-total').innerText = total;
                 if(gift) {
@@ -245,7 +262,7 @@
                 document.getElementById('success-page').classList.remove('hidden');
                 window.scrollTo(0,0);
             } catch (e) {
-                alert("傳送失敗，請稍後再試");
+                alert("傳送失敗，請聯繫客服");
                 btn.innerText = "確認送出訂單"; btn.disabled = false;
             }
         }
