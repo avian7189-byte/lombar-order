@@ -130,8 +130,8 @@
 
         const WINES = {
             red: [
-                { id: 'r1', name: "尼祿 高地黑魂 NERO D’ALTURA (750ml)", price: 1200, img: "https://lh3.googleusercontent.com/d/1zW1Vv9bE7W_SiDG6U6u_nUqfLzE8Wk9v" },
-                { id: 'r2', name: "尼祿 高地黑魂 NERO D’ALTURA (1500ml)", price: 3600 },
+                { id: 'r1', name: "尼祿 高地黑魂 NERO D’ALTURA (750ml)", price: 1200, img: "https://lh3.googleusercontent.com/d/1DioZpo8wGeVkTB2DpZV0n01refIXGFlz" },
+                { id: 'r2', name: "尼祿 高地黑魂 NERO D’ALTURA (1500ml)", price: 3600, img: "https://lh3.googleusercontent.com/d/1DioZpo8wGeVkTB2DpZV0n01refIXGFlz" },
                 { id: 'r3', name: "芙歐蕾 玫瑰黑織 FIORE DI NERO (750ml)", price: 980 },
                 { id: 'r4', name: "三韻之丹 UNÀNIME ROSSO (750ml)", price: 980 },
                 { id: 'r5', name: "我是 EIMI (750ml)", price: 2800 },
@@ -167,19 +167,33 @@
         let cart = {};
         let currentPlanFull = "";
 
-        function switchTab(type) {
+       function switchTab(type) {
             document.querySelectorAll('[id^="tab-"]').forEach(el => el.classList.remove('tab-active'));
             document.getElementById('tab-' + type).classList.add('tab-active');
             const container = document.getElementById('wine-container');
+            
             container.innerHTML = WINES[type].map(wine => `
-                <div class="wine-card bg-white rounded-3xl p-6 flex flex-col shadow-sm">
-                    <h3 class="font-bold text-gray-800 text-sm mb-4 h-12 overflow-hidden leading-tight">${wine.name}</h3>
+                <div class="wine-card bg-white rounded-[2rem] p-4 flex flex-col shadow-sm border border-stone-50 transition-all">
+                    <div class="w-full h-52 mb-4 bg-white flex items-center justify-center overflow-hidden rounded-2xl">
+                        ${wine.img ? 
+                            `<img src="${wine.img}" class="max-h-full max-w-full object-contain hover:scale-110 transition-transform duration-500" alt="${wine.name}">` : 
+                            `<div class="text-stone-300 flex flex-col items-center">
+                                <span class="text-4xl mb-2">🍷</span>
+                                <span class="text-[10px] uppercase tracking-widest font-bold">LOMBAR Photo</span>
+                             </div>`
+                        }
+                    </div>
+
+                    <h3 class="font-bold text-gray-800 text-[13px] mb-4 h-10 overflow-hidden leading-tight italic">
+                        ${wine.name}
+                    </h3>
+                    
                     <div class="flex items-center justify-between mt-auto">
                         <p class="text-red-900 font-black text-xl">$${wine.price.toLocaleString()}</p>
                         <div class="flex items-center space-x-3">
-                            <button onclick="updateQty('${wine.id}', -1, ${wine.price}, '${wine.name}')" class="w-8 h-8 rounded-lg bg-stone-100 font-bold">-</button>
+                            <button onclick="updateQty('${wine.id}', -1, ${wine.price}, '${wine.name}')" class="w-8 h-8 rounded-lg bg-stone-100 font-bold hover:bg-stone-200 transition">-</button>
                             <span id="qty-${wine.id}" class="font-bold w-6 text-center">${cart[wine.id]?.qty || 0}</span>
-                            <button onclick="updateQty('${wine.id}', 1, ${wine.price}, '${wine.name}')" class="w-8 h-8 rounded-lg bg-red-800 text-white font-bold">+</button>
+                            <button onclick="updateQty('${wine.id}', 1, ${wine.price}, '${wine.name}')" class="w-8 h-8 rounded-lg bg-red-800 text-white font-bold hover:bg-red-900 shadow-md transition">+</button>
                         </div>
                     </div>
                 </div>
