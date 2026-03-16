@@ -193,14 +193,14 @@
 
             let plan = 'A'; let discount = 0.9; let discText = "享 9 折優惠"; let shipping = 150; let giftOptions = [];
 
-            // 優先判定 E: 任選 6 瓶
+            // 優先判定 D: 任選 6 瓶
             if (totalQty >= 6) {
-                plan = 'E'; discount = 0.8; discText = "全系列任選 8 折優惠"; shipping = 0;
+                plan = 'D'; discount = 0.8; discText = "全系列任選 8 折優惠"; shipping = 0;
                 giftOptions = ["NERO 經典紅酒一瓶", "自選 $1,050 以內任一酒款"];
             } 
-            // 判定 D: 高價位 3 瓶
+            // 判定 C: 高價位 3 瓶
             else if (catD_Qty >= 3) {
-                plan = 'D'; discount = 0.85; discText = "高價系列 8.5 折優惠"; shipping = 0;
+                plan = 'C'; discount = 0.85; discText = "高價系列 8.5 折優惠"; shipping = 0;
                 giftOptions = ["特選白酒一瓶", "特選紅酒一瓶"];
             }
             // 判定 B: 低價位 3 瓶
