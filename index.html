@@ -16,7 +16,7 @@
 
     <div id="order-page" class="max-w-4xl mx-auto px-4">
         <header class="bg-red-950 text-white p-10 rounded-b-[3rem] shadow-2xl text-center mb-6">
-            <h1 class="text-3xl font-black tracking-widest uppercase">TENUTE LOMBARDO</h1>
+            <h1 class="text-3xl font-black tracking-widest uppercase text-white">TENUTE LOMBARDO</h1>
             <p class="text-red-200 text-xs mt-2 tracking-widest opacity-80 uppercase">倫巴杜酒莊 官方預購系統</p>
         </header>
 
@@ -24,7 +24,7 @@
             <a href="https://drive.google.com/drive/u/0/folders/1keec5-USj4P-4Z4WOIWJjY39y8Uo-Ffx" target="_blank" class="text-red-800 text-sm font-bold underline">🍷 點此開啟產品照片型錄相簿</a>
         </div>
 
-        <div class="flex justify-center space-x-8 mb-6 border-b border-gray-100 sticky top-0 bg-white/90 backdrop-blur-md z-40 py-4">
+        <div class="flex justify-center space-x-4 md:space-x-8 mb-6 border-b border-gray-100 sticky top-0 bg-white/90 backdrop-blur-md z-40 py-4">
             <button onclick="switchTab('red')" id="tab-red" class="tab-active pb-2 px-2 transition-all">紅酒</button>
             <button onclick="switchTab('white')" id="tab-white" class="pb-2 px-2 transition-all">白酒</button>
             <button onclick="switchTab('sparkling')" id="tab-sparkling" class="pb-2 px-2 transition-all">氣泡酒</button>
@@ -49,16 +49,22 @@
             
             <div class="space-y-4 border-t pt-6">
                 <p class="font-bold text-gray-700">付款方式：</p>
-                <div class="flex gap-4">
-                    <label class="flex items-center gap-2 bg-stone-50 p-3 rounded-xl flex-1 cursor-pointer border-2 border-transparent has-[:checked]:border-red-800 transition">
-                        <input type="radio" name="payMethod" value="現金" onchange="toggleBankInput(false)"> 現金
+                <div class="grid grid-cols-3 gap-3">
+                    <label class="flex flex-col items-center gap-2 bg-stone-50 p-3 rounded-xl cursor-pointer border-2 border-transparent has-[:checked]:border-red-800 transition shadow-sm text-sm">
+                        <input type="radio" name="payMethod" value="現金" onchange="toggleBankInput(false)"> 
+                        <span>現金</span>
                     </label>
-                    <label class="flex items-center gap-2 bg-stone-50 p-3 rounded-xl flex-1 cursor-pointer border-2 border-transparent has-[:checked]:border-red-800 transition">
-                        <input type="radio" name="payMethod" value="匯款" onchange="toggleBankInput(true)"> 匯款
+                    <label class="flex flex-col items-center gap-2 bg-stone-50 p-3 rounded-xl cursor-pointer border-2 border-transparent has-[:checked]:border-red-800 transition shadow-sm text-sm">
+                        <input type="radio" name="payMethod" value="匯款" onchange="toggleBankInput(true)"> 
+                        <span>匯款</span>
+                    </label>
+                    <label class="flex flex-col items-center gap-2 bg-stone-50 p-3 rounded-xl cursor-pointer border-2 border-transparent has-[:checked]:border-red-800 transition shadow-sm text-sm">
+                        <input type="radio" name="payMethod" value="貨到付款" onchange="toggleBankInput(false)"> 
+                        <span>貨到付款</span>
                     </label>
                 </div>
                 <div id="bank-input-area" class="hidden animate-in fade-in slide-in-from-top-2">
-                    <input type="text" id="bankLastFive" placeholder="請輸入匯款帳號後五碼" class="w-full bg-red-50 p-4 rounded-xl outline-none border border-red-100">
+                    <input type="text" id="bankLastFive" placeholder="請輸入匯款帳號後五碼 (匯款才需填寫)" class="w-full bg-red-50 p-4 rounded-xl outline-none border border-red-100">
                 </div>
             </div>
         </section>
@@ -100,6 +106,7 @@
                 <div class="flex justify-between border-b pb-2"><span>電話：</span><span id="res-phone" class="font-bold"></span></div>
                 <div class="flex flex-col border-b pb-2"><span>收件地址：</span><span id="res-address" class="font-medium text-sm mt-1"></span></div>
                 <div id="res-tax-area" class="flex justify-between border-b pb-2 hidden"><span>統編/抬頭：</span><span id="res-taxId" class="font-bold"></span></div>
+                <div class="flex justify-between border-b pb-2"><span>付款方式：</span><span id="res-payMethod" class="font-bold"></span></div>
                 <div class="flex justify-between border-b pb-2 text-red-800"><span>適用方案：</span><span id="res-plan" class="font-bold"></span></div>
                 <div class="space-y-1">
                     <p class="text-sm text-gray-400">訂購清單：</p>
@@ -111,8 +118,8 @@
                 <div id="res-gift-area" class="hidden flex justify-between text-blue-700 bg-blue-50 p-2 rounded">
                     <span>方案贈品：</span><span id="res-gift" class="font-bold"></span>
                 </div>
-                <div class="bg-red-50 p-4 rounded-xl space-y-2 border border-red-100 text-[10px]">
-                    <p class="font-bold text-red-900 text-sm">🏦 匯款帳戶資訊</p>
+                <div id="bank-info-box" class="bg-red-50 p-4 rounded-xl space-y-2 border border-red-100 text-[10px]">
+                    <p class="font-bold text-red-900 text-sm">🏦 匯款帳戶資訊 (如選匯款)</p>
                     <p>銀行：玉山銀行 (808) 仁德分行 | 戶名：有集貿易有限公司</p>
                     <p>帳號：1137-940-267329</p>
                 </div>
@@ -124,7 +131,6 @@
     </div>
 
     <script>
-        // 請確保填入您最新的 Apps Script 網址
         const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz_OPAqOBadxdYGcdH1DsulDI8YCap1bLWbSCre7B8rarLuIsrrOeUeH9vbXeskozx0Mg/exec';
 
         const WINES = {
@@ -211,7 +217,9 @@
             } else { giftContainer.classList.add('hidden'); }
         }
 
-        function toggleBankInput(show) { document.getElementById('bank-input-area').classList.toggle('hidden', !show); }
+        function toggleBankInput(show) { 
+            document.getElementById('bank-input-area').classList.toggle('hidden', !show); 
+        }
 
         function goToInfo() {
             if (document.getElementById('display-total').innerText == "0") return alert("請先選擇酒款");
@@ -231,7 +239,7 @@
             const gift = document.getElementById('gift-choice').value;
             
             if (!name || !phone || !addr || !payMethod) return alert("請填寫姓名、電話、地址並選擇付款方式");
-            if (payMethod === '匯款' && !bankLastFive) return alert("匯款請提供後五碼以便對帳");
+            if (payMethod === '匯款' && !bankLastFive) return alert("選擇匯款請提供後五碼以便對帳");
 
             const btn = document.getElementById('main-btn');
             btn.innerText = "訂單傳送中..."; btn.disabled = true;
@@ -248,10 +256,11 @@
             try {
                 await fetch(GOOGLE_SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(data) });
                 
-                // 填入明細表
+                // 填入成功明細
                 document.getElementById('res-name').innerText = name;
                 document.getElementById('res-phone').innerText = phone;
                 document.getElementById('res-address').innerText = addr;
+                document.getElementById('res-payMethod').innerText = payMethod;
                 if(taxId) { 
                     document.getElementById('res-tax-area').classList.remove('hidden');
                     document.getElementById('res-taxId').innerText = taxId;
@@ -264,6 +273,9 @@
                     document.getElementById('res-gift').innerText = gift;
                 }
                 
+                // 只有「匯款」才顯示帳戶資訊，減少干擾
+                if(payMethod !== '匯款') document.getElementById('bank-info-box').classList.add('hidden');
+
                 document.getElementById('order-page').classList.add('hidden');
                 document.getElementById('success-page').classList.remove('hidden');
                 window.scrollTo(0,0);
