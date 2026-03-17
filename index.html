@@ -2,126 +2,116 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <title>LOMBAR 官方預購系統 | TENUTE LOMBARDO</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body { font-family: "Heiti TC", "Microsoft JhengHei", sans-serif; background: #fdfdfb; }
         .tab-active { border-bottom: 4px solid #7f1d1d; color: #7f1d1d; font-weight: bold; }
-        .wine-card { transition: all 0.3s ease; border: 1px solid #eee; }
-        .wine-card:hover { transform: translateY(-2px); border-color: #7f1d1d; box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        .wine-card { transition: all 0.3s ease; border: 1px solid #eee; overflow: hidden; }
+        .wine-card:hover { transform: translateY(-3px); border-color: #7f1d1d; box-shadow: 0 10px 20px rgba(127, 29, 29, 0.05); }
+        .safe-bottom { padding-bottom: 240px; }
+        @media (min-width: 1024px) { .safe-bottom { padding-bottom: 180px; } }
     </style>
 </head>
-<body class="pb-40">
+<body class="safe-bottom">
 
     <div id="order-page" class="max-w-4xl mx-auto px-4 text-gray-800">
-        <header class="bg-red-950 text-white p-10 rounded-b-[3rem] shadow-2xl text-center mb-6">
-            <h1 class="text-3xl font-black tracking-widest uppercase text-white">TENUTE LOMBARDO</h1>
+        <header class="bg-red-950 text-white p-8 rounded-b-[2.5rem] shadow-xl text-center mb-6">
+            <h1 class="text-2xl md:text-3xl font-black tracking-widest uppercase">TENUTE LOMBARDO</h1>
             <p class="text-red-200 text-[10px] mt-2 tracking-[0.2em] opacity-80 uppercase font-light">倫巴杜酒莊 官方預購系統</p>
         </header>
 
-        <div class="text-center mb-6">
-            <a href="https://drive.google.com/drive/u/0/folders/1keec5-USj4P-4Z4WOIWJjY39y8Uo-Ffx" target="_blank" class="text-red-800 text-sm font-bold underline hover:text-red-600 transition">🍷 點此開啟產品照片型錄相簿</a>
+        <div class="flex justify-center space-x-6 md:space-x-10 mb-6 border-b border-gray-100 sticky top-0 bg-white/90 backdrop-blur-md z-40 py-4">
+            <button onclick="switchTab('red')" id="tab-red" class="tab-active pb-2 px-1 transition-all text-sm md:text-base">紅葡萄酒</button>
+            <button onclick="switchTab('white')" id="tab-white" class="pb-2 px-1 transition-all text-sm md:text-base">白葡萄酒</button>
+            <button onclick="switchTab('sparkling')" id="tab-sparkling" class="pb-2 px-1 transition-all text-sm md:text-base">氣泡酒</button>
         </div>
 
-        <div class="flex justify-center space-x-4 md:space-x-10 mb-6 border-b border-gray-100 sticky top-0 bg-white/90 backdrop-blur-md z-40 py-4">
-            <button onclick="switchTab('red')" id="tab-red" class="tab-active pb-2 px-2 transition-all">紅葡萄酒</button>
-            <button onclick="switchTab('white')" id="tab-white" class="pb-2 px-2 transition-all">白葡萄酒</button>
-            <button onclick="switchTab('sparkling')" id="tab-sparkling" class="pb-2 px-2 transition-all">氣泡酒</button>
-        </div>
+        <div id="wine-container" class="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6 mb-10"></div>
 
-        <div id="wine-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10"></div>
-
-        <section id="info-section" class="bg-white p-8 rounded-3xl shadow-sm mb-10 border border-gray-100 hidden">
-            <h2 class="text-xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+        <section id="info-section" class="bg-white p-6 rounded-3xl shadow-sm mb-10 border border-gray-100 hidden">
+            <h2 class="text-lg font-bold text-gray-800 mb-6 flex items-center gap-2">
                 <span class="w-1.5 h-6 bg-red-800 rounded-full"></span> 配送與付款資訊
             </h2>
+            
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <input type="text" id="custName" placeholder="客戶姓名 (必填)" class="w-full bg-stone-50 p-4 rounded-xl outline-none focus:ring-2 focus:ring-red-800/20">
                 <input type="tel" id="custPhone" placeholder="聯絡電話 (必填)" class="w-full bg-stone-50 p-4 rounded-xl outline-none focus:ring-2 focus:ring-red-800/20">
             </div>
-            <div class="space-y-4 mb-6">
-                <input type="text" id="custAddress" placeholder="收件地址 (必填)" class="w-full bg-stone-50 p-4 rounded-xl outline-none focus:ring-2 focus:ring-red-800/20">
-                <input type="text" id="custTaxId" placeholder="公司統編 / 抬頭 (選填)" class="w-full bg-stone-50 p-4 rounded-xl outline-none focus:ring-2 focus:ring-red-800/20">
+            <input type="text" id="custAddress" placeholder="收件地址 (必填)" class="w-full bg-stone-50 p-4 rounded-xl outline-none focus:ring-2 focus:ring-red-800/20 mb-4">
+            
+            <div class="bg-blue-50 p-4 rounded-2xl mb-6 border border-blue-100">
+                <p class="text-blue-800 text-[10px] font-bold mb-2 italic tracking-tighter">※ 若有填寫統編/抬頭，總金額將自動加計 5% 營業稅。</p>
+                <input type="text" id="custTaxId" oninput="calculate()" placeholder="公司統編 / 抬頭 (選填)" class="w-full bg-white p-4 rounded-xl outline-none border border-blue-200 focus:ring-2 focus:ring-blue-400">
             </div>
+            
             <div class="space-y-4 border-t pt-6">
-                <p class="font-bold text-gray-700">付款方式：</p>
-                <div class="grid grid-cols-3 gap-3">
-                    <label class="flex flex-col items-center p-3 bg-stone-50 rounded-xl cursor-pointer border-2 border-transparent has-[:checked]:border-red-800 shadow-sm text-sm transition">
+                <p class="font-bold text-sm text-gray-700">選擇付款方式：</p>
+                <div class="grid grid-cols-3 gap-2">
+                    <label class="flex flex-col items-center p-3 bg-stone-50 rounded-xl cursor-pointer border-2 border-transparent has-[:checked]:border-red-800 shadow-sm text-xs transition">
                         <input type="radio" name="payMethod" value="現金" onchange="toggleBankInput(false)"><span>現金</span>
                     </label>
-                    <label class="flex flex-col items-center p-3 bg-stone-50 rounded-xl cursor-pointer border-2 border-transparent has-[:checked]:border-red-800 shadow-sm text-sm transition">
+                    <label class="flex flex-col items-center p-3 bg-stone-50 rounded-xl cursor-pointer border-2 border-transparent has-[:checked]:border-red-800 shadow-sm text-xs transition">
                         <input type="radio" name="payMethod" value="匯款" onchange="toggleBankInput(true)"><span>匯款</span>
                     </label>
-                    <label class="flex flex-col items-center p-3 bg-stone-50 rounded-xl cursor-pointer border-2 border-transparent has-[:checked]:border-red-800 shadow-sm text-sm transition">
+                    <label class="flex flex-col items-center p-3 bg-stone-50 rounded-xl cursor-pointer border-2 border-transparent has-[:checked]:border-red-800 shadow-sm text-xs transition">
                         <input type="radio" name="payMethod" value="貨到付款" onchange="toggleBankInput(false)"><span>貨到付款</span>
                     </label>
                 </div>
-                <div id="bank-input-area" class="hidden animate-in fade-in slide-in-from-top-2">
-                    <input type="text" id="bankLastFive" placeholder="請輸入匯款帳號後五碼" class="w-full bg-red-50 p-4 rounded-xl outline-none border border-red-100">
+
+                <div class="bg-red-50 p-5 rounded-2xl border border-red-100 mt-4">
+                    <p class="font-bold text-red-900 text-sm mb-2 uppercase tracking-wider flex items-center gap-2">
+                        🏦 匯款帳戶資訊
+                    </p>
+                    <div class="text-[12px] leading-relaxed text-red-800 space-y-1">
+                        <p>銀行：玉山銀行 (808) 仁德分行</p>
+                        <p>戶名：有集貿易有限公司</p>
+                        <p>帳號：<span class="font-bold select-all">1137940267329</span></p>
+                    </div>
+                    <div id="bank-input-area" class="hidden mt-4 pt-4 border-t border-red-200">
+                        <input type="text" id="bankLastFive" placeholder="請輸入匯款帳號後五碼" class="w-full bg-white p-4 rounded-xl outline-none border border-red-200 focus:ring-2 focus:ring-red-400">
+                    </div>
                 </div>
             </div>
         </section>
 
-        <div class="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-gray-100 p-6 z-50">
-            <div class="max-w-4xl mx-auto flex flex-col lg:flex-row justify-between items-center gap-4">
-                <div class="text-left w-full lg:w-auto">
-                    <div class="flex items-center gap-2 mb-1">
-                        <span id="display-plan-label" class="bg-red-900 text-white text-[10px] px-2 py-0.5 rounded font-bold uppercase tracking-wider">方案 A</span>
-                        <span id="display-discount-label" class="text-red-700 text-sm font-black italic">享 9 折優惠</span>
-                    </div>
-                    <div class="flex items-baseline gap-2">
-                        <p class="text-4xl font-black text-red-900 leading-none">$<span id="display-total">0</span></p>
-                        <p class="text-xs text-gray-400 font-medium">已選 <span id="total-qty" class="font-bold text-red-800 text-lg">0</span> 瓶 | <span id="display-shipping">加運費 $150</span></p>
-                    </div>
+        <div class="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-gray-100 p-4 pb-10 lg:pb-6 z-50 shadow-[0_-10px_20px_rgba(0,0,0,0.05)]">
+            <div class="max-w-4xl mx-auto">
+                <div id="gift-select-container" class="hidden mb-3 w-full">
+                    <select id="gift-choice" class="w-full border-2 border-red-100 rounded-lg p-2 text-xs bg-white font-bold text-red-900"></select>
                 </div>
-                
-                <div id="gift-select-container" class="hidden w-full lg:w-72">
-                    <div class="bg-red-50 p-2 rounded-xl border border-red-200">
-                        <p class="text-[10px] text-red-800 font-bold mb-1 ml-1 uppercase">🎁 請選擇您的方案贈酒：</p>
-                        <select id="gift-choice" class="w-full border-none rounded-lg p-2 text-xs bg-white font-bold text-red-900 focus:ring-1 focus:ring-red-800">
-                        </select>
+                <div class="flex items-center justify-between gap-4">
+                    <div class="flex-1">
+                        <div class="flex items-center gap-1.5 mb-0.5">
+                            <span id="display-plan-label" class="bg-red-900 text-white text-[9px] px-1.5 py-0.5 rounded font-bold uppercase">方案 A</span>
+                            <span id="display-discount-label" class="text-red-700 text-[11px] font-black italic">享 9 折優惠</span>
+                        </div>
+                        <div class="flex flex-col">
+                            <div class="flex items-baseline gap-1">
+                                <p class="text-2xl font-black text-red-900 leading-none">$<span id="display-total">0</span></p>
+                                <p class="text-[10px] text-gray-400 font-medium">共 <span id="total-qty" class="text-red-800 font-bold">0</span> 瓶</p>
+                            </div>
+                            <p id="tax-note" class="hidden text-[9px] text-blue-600 font-bold mt-1 tracking-tighter italic">已含 5% 營業稅</p>
+                        </div>
                     </div>
+                    <button onclick="goToInfo()" id="main-btn" class="flex-1 max-w-[160px] bg-red-800 text-white py-4 rounded-xl font-bold text-base shadow-lg active:scale-95 transition-all">下一步</button>
                 </div>
-
-                <button onclick="goToInfo()" id="main-btn" class="w-full lg:w-64 bg-red-800 text-white py-4 rounded-2xl font-bold text-xl shadow-xl active:scale-95 transition-all">下一步：填寫資訊</button>
             </div>
         </div>
     </div>
 
-    <div id="success-page" class="hidden fixed inset-0 bg-stone-100 z-[100] overflow-y-auto p-4 text-gray-800">
-        <div class="max-w-md mx-auto my-6 bg-white rounded-3xl shadow-2xl overflow-hidden border-2 border-red-900" id="receipt">
+    <div id="success-page" class="hidden fixed inset-0 bg-stone-100 z-[100] overflow-y-auto p-4">
+        <div class="max-w-md mx-auto my-6 bg-white rounded-3xl shadow-2xl overflow-hidden border-2 border-red-900">
             <div class="bg-red-950 text-white p-6 text-center">
-                <h2 class="text-2xl font-black tracking-widest">LOMBAR 訂購明細</h2>
-                <p class="text-xs text-red-200 mt-1 uppercase">Order Confirmation</p>
+                <h2 class="text-2xl font-black tracking-widest uppercase italic">Order Summary</h2>
+                <p class="text-xs text-red-200 mt-1 uppercase">訂購明細</p>
             </div>
-            <div class="p-6 space-y-4">
-                <div class="flex justify-between border-b pb-2 text-sm"><span>客戶姓名：</span><span id="res-name" class="font-bold"></span></div>
-                <div class="flex justify-between border-b pb-2 text-sm"><span>電話：</span><span id="res-phone" class="font-bold"></span></div>
-                <div class="flex flex-col border-b pb-2 text-sm"><span>收件地址：</span><span id="res-address" class="font-medium mt-1"></span></div>
-                <div id="res-tax-area" class="flex justify-between border-b pb-2 text-sm hidden"><span>統編/抬頭：</span><span id="res-taxId" class="font-bold"></span></div>
-                <div class="flex justify-between border-b pb-2 text-sm"><span>付款方式：</span><span id="res-payMethod" class="font-bold"></span></div>
-                <div class="flex justify-between border-b pb-2 text-red-800 text-sm italic"><span>適用方案：</span><span id="res-plan" class="font-bold"></span></div>
-                <div class="space-y-1">
-                    <p class="text-xs text-gray-400">購買產品明細：</p>
-                    <p id="res-items" class="text-[13px] font-medium leading-relaxed"></p>
+            <div id="receipt-content" class="p-6 space-y-4 text-sm text-gray-800">
                 </div>
-                <div id="res-gift-area" class="hidden bg-blue-50 p-3 rounded-xl border border-blue-100">
-                    <p class="text-[10px] text-blue-800 font-bold mb-1 uppercase">🏆 方案加贈好禮：</p>
-                    <p id="res-gift" class="text-xs font-bold text-blue-900"></p>
-                </div>
-                <div class="bg-stone-50 p-4 rounded-xl flex justify-between items-center border border-stone-100">
-                    <span class="text-sm font-bold">應付總額：</span><span class="text-2xl font-black text-red-900">$<span id="res-total"></span></span>
-                </div>
-                <div id="bank-info-box" class="bg-red-50 p-4 rounded-xl border border-red-100 text-[10px] leading-relaxed">
-                    <p class="font-bold text-red-900 text-sm mb-1 uppercase">🏦 匯款資訊</p>
-                    <p>銀行：玉山銀行 (808) 仁德分行 | 戶名：有集貿易有限公司</p>
-                    <p>帳號：1137-940-267329</p>
-                </div>
-            </div>
         </div>
         <div class="text-center mt-6 pb-10">
-            <button onclick="location.reload()" class="bg-gray-800 text-white px-8 py-3 rounded-full font-bold shadow-lg transition active:bg-black">建立新訂單</button>
+            <button onclick="location.reload()" class="bg-gray-800 text-white px-8 py-3 rounded-full font-bold">建立新訂單</button>
         </div>
     </div>
 
@@ -130,7 +120,7 @@
 
         const WINES = {
             red: [
-                { id: 'r1', name: "尼祿 高地黑魂 NERO D’ALTURA (750ml)", price: 1200, img: "https://lh3.googleusercontent.com/d/1DioZpo8wGeVkTB2DpZV0n01refIXGFlz" },
+                 { id: 'r1', name: "尼祿 高地黑魂 NERO D’ALTURA (750ml)", price: 1200, img: "https://lh3.googleusercontent.com/d/1DioZpo8wGeVkTB2DpZV0n01refIXGFlz" },
                 { id: 'r2', name: "尼祿 高地黑魂 NERO D’ALTURA (1500ml)", price: 3600, img: "https://lh3.googleusercontent.com/d/1DioZpo8wGeVkTB2DpZV0n01refIXGFlz" },
                 { id: 'r3', name: "芙歐蕾 玫瑰黑織 FIORE DI NERO (750ml)", price: 980, img: "https://lh3.googleusercontent.com/d/1LfEH9Dn2JoaoFvH5xppT3pS4U4oaEmoR" },
                 { id: 'r4', name: "三韻之丹 UNÀNIME ROSSO (750ml)", price: 980, img: "https://lh3.googleusercontent.com/d/1_isAdBhpUM3aGydWqaiQwUv69MXk7Ox4"  },
@@ -150,50 +140,34 @@
                 { id: 's3', name: "蘇阿爾特札・空玫 ROSÉ (750ml)", price: 980, img: "https://lh3.googleusercontent.com/d/16Dt1ZSjLKnTNoVdrh0CA-KimgmBvN2PR" },
                 { id: 's4', name: "蘇阿爾特札・空玫 ROSÉ (1500ml)", price: 3600, img: "https://lh3.googleusercontent.com/d/16Dt1ZSjLKnTNoVdrh0CA-KimgmBvN2PR" },
                 { id: 's5', name: "達圖拉 高地極釀 D’ALTURA (750ml)", price: 3600, img: "https://lh3.googleusercontent.com/d/1m_akdnqdD5mZ9Jk7fzFPZTEz1LUyUrMg" }
+
             ]
         };
 
-        const GIFT_OPTIONS_LOW = [
-            "尼祿 高地黑魂 NERO D’ALTURA (750ml) (贈酒)",
-            "芙歐蕾 玫瑰黑織 FIORE DI NERO (750ml)",
-            "三韻之丹 UNÀNIME ROSSO (750ml)",
-            "卡塔拉托 柑香白影 CATARRATTO D’ALTURA (750ml)",
-            "格里洛 海風芬馥 GRILLO D’ALTURA (750ml)",
-            "三韻之翡 UNÀNIME BIANCO (750ml)",
-            "蘇阿爾特札・空光 SUALTEZZA 650 (750ml)",
-            "蘇阿爾特札・空光 ROSÉ (750ml)"
+        const GIFT_OPTIONS = [
+            "尼祿 高地黑魂 (750ml) (方案贈酒)", "芙歐蕾 玫瑰黑織 (750ml)", "三韻之丹 (750ml)", 
+            "卡塔拉托 柑香白影 (750ml)", "格里洛 海風芬馥 (750ml)", "三韻之翡 (750ml)", 
+            "蘇阿爾特札・空光 (750ml)", "蘇阿爾特札・空玫 ROSÉ (750ml)"
         ];
 
-        let cart = {};
-        let currentPlanFull = "";
+        let cart = {}; let currentPlanFull = "";
 
-       function switchTab(type) {
+        function switchTab(type) {
             document.querySelectorAll('[id^="tab-"]').forEach(el => el.classList.remove('tab-active'));
             document.getElementById('tab-' + type).classList.add('tab-active');
             const container = document.getElementById('wine-container');
-            
             container.innerHTML = WINES[type].map(wine => `
-                <div class="wine-card bg-white rounded-[2rem] p-4 flex flex-col shadow-sm border border-stone-50 transition-all">
-                    <div class="w-full h-52 mb-4 bg-white flex items-center justify-center overflow-hidden rounded-2xl">
-                        ${wine.img ? 
-                            `<img src="${wine.img}" class="max-h-full max-w-full object-contain hover:scale-110 transition-transform duration-500" alt="${wine.name}">` : 
-                            `<div class="text-stone-300 flex flex-col items-center">
-                                <span class="text-4xl mb-2">🍷</span>
-                                <span class="text-[10px] uppercase tracking-widest font-bold">LOMBAR Photo</span>
-                             </div>`
-                        }
+                <div class="wine-card bg-white rounded-[2rem] p-3 flex flex-col shadow-sm border border-stone-50">
+                    <div class="w-full h-32 md:h-48 mb-3 bg-white flex items-center justify-center overflow-hidden rounded-2xl">
+                        ${wine.img ? `<img src="${wine.img}" class="max-h-full max-w-full object-contain">` : `<span class="text-3xl grayscale opacity-20">🍷</span>`}
                     </div>
-
-                    <h3 class="font-bold text-gray-800 text-[13px] mb-4 h-10 overflow-hidden leading-tight italic">
-                        ${wine.name}
-                    </h3>
-                    
+                    <h3 class="font-bold text-gray-800 text-[11px] md:text-xs mb-3 h-8 overflow-hidden leading-tight italic uppercase tracking-tighter">${wine.name}</h3>
                     <div class="flex items-center justify-between mt-auto">
-                        <p class="text-red-900 font-black text-xl">$${wine.price.toLocaleString()}</p>
-                        <div class="flex items-center space-x-3">
-                            <button onclick="updateQty('${wine.id}', -1, ${wine.price}, '${wine.name}')" class="w-8 h-8 rounded-lg bg-stone-100 font-bold hover:bg-stone-200 transition">-</button>
-                            <span id="qty-${wine.id}" class="font-bold w-6 text-center">${cart[wine.id]?.qty || 0}</span>
-                            <button onclick="updateQty('${wine.id}', 1, ${wine.price}, '${wine.name}')" class="w-8 h-8 rounded-lg bg-red-800 text-white font-bold hover:bg-red-900 shadow-md transition">+</button>
+                        <p class="text-red-900 font-black text-sm md:text-lg">$${wine.price}</p>
+                        <div class="flex items-center space-x-2">
+                            <button onclick="updateQty('${wine.id}', -1, ${wine.price}, '${wine.name}')" class="w-7 h-7 rounded-lg bg-stone-100 font-bold hover:bg-stone-200 transition">-</button>
+                            <span id="qty-${wine.id}" class="font-bold text-xs w-4 text-center">${cart[wine.id]?.qty || 0}</span>
+                            <button onclick="updateQty('${wine.id}', 1, ${wine.price}, '${wine.name}')" class="w-7 h-7 rounded-lg bg-red-800 text-white font-bold hover:bg-red-900 shadow-md transition">+</button>
                         </div>
                     </div>
                 </div>
@@ -208,84 +182,92 @@
         }
 
         function calculate() {
-            let totalQty = 0; let rawPrice = 0;
-            let items = Object.values(cart).filter(i => i.qty > 0);
-            let lowPriceQty = 0; let highPriceQty = 0;
-            items.forEach(i => { 
-                totalQty += i.qty; rawPrice += (i.qty * i.price); 
-                if (i.price >= 980 && i.price <= 2880) lowPriceQty += i.qty;
-                if (i.price >= 3600 && i.price <= 7200) highPriceQty += i.qty;
-            });
+            let totalQty = 0; let rawPrice = 0; let items = Object.values(cart).filter(i => i.qty > 0);
+            let lowQty = 0; let highQty = 0;
+            items.forEach(i => { totalQty += i.qty; rawPrice += (i.qty * i.price); if(i.price <= 2880) lowQty += i.qty; if(i.price >= 3600) highQty += i.qty; });
 
-            let plan = 'A'; let discount = 0.9; let discText = "享 9 折優惠"; let shipping = 150; let giftList = [];
-            if (totalQty >= 6) { plan = 'D'; discount = 0.8; discText = "全單 8 折 (滿 6 瓶)"; shipping = 0; giftList = GIFT_OPTIONS_LOW; } 
-            else if (highPriceQty >= 3) { plan = 'C'; discount = 0.85; discText = "全單 8.5 折 (高價滿 3 瓶)"; shipping = 0; giftList = ["特選紅酒 (高價滿額贈)", "特選白酒 (高價滿額贈)"]; }
-            else if (lowPriceQty >= 3) { plan = 'B'; discount = 0.85; discText = "全單 8.5 折 (平價滿 3 瓶)"; shipping = 0; }
+            let plan = 'A'; let disc = 0.9; let text = "享 9 折優惠"; let ship = 150; let gifts = [];
+            if(totalQty >= 6) { plan = 'D'; disc = 0.8; text = "全單 8 折 (滿 6 瓶)"; ship = 0; gifts = GIFT_OPTIONS; }
+            else if(highQty >= 3) { plan = 'C'; disc = 0.85; text = "高價滿 3 瓶 8.5 折"; ship = 0; gifts = ["特選紅酒 (一瓶)", "特選白酒 (一瓶)"]; }
+            else if(lowQty >= 3) { plan = 'B'; disc = 0.85; text = "平價滿 3 瓶 8.5 折"; ship = 0; }
 
-            currentPlanFull = "方案 " + plan + " (" + discText + ")";
-            const finalTotal = totalQty > 0 ? Math.round(rawPrice * discount) + (plan === 'A' ? shipping : 0) : 0;
+            currentPlanFull = "方案 " + plan + " (" + text + ")";
+            let subtotal = totalQty > 0 ? Math.round(rawPrice * disc) + (plan === 'A' ? ship : 0) : 0;
+            
+            // 稅金判斷
+            const taxInput = document.getElementById('custTaxId').value;
+            let isTaxed = taxInput && taxInput.trim() !== "";
+            let finalTotal = isTaxed ? Math.round(subtotal * 1.05) : subtotal;
+            
+            document.getElementById('tax-note').classList.toggle('hidden', !isTaxed);
             document.getElementById('display-plan-label').innerText = "方案 " + plan;
-            document.getElementById('display-discount-label').innerText = discText;
+            document.getElementById('display-discount-label').innerText = text;
             document.getElementById('total-qty').innerText = totalQty;
             document.getElementById('display-total').innerText = finalTotal.toLocaleString();
-            document.getElementById('display-shipping').innerText = plan === 'A' ? '加運費 $150' : '免運費';
-            const giftContainer = document.getElementById('gift-select-container');
-            const giftSelect = document.getElementById('gift-choice');
-            if (giftList.length > 0) {
-                giftContainer.classList.remove('hidden');
-                giftSelect.innerHTML = '<option value="">-- 請選擇您的方案贈酒 --</option>' + giftList.map(g => `<option value="${g}">${g}</option>`).join('');
-            } else { giftContainer.classList.add('hidden'); giftSelect.innerHTML = ""; }
+            
+            const gCon = document.getElementById('gift-select-container');
+            const gSel = document.getElementById('gift-choice');
+            if(gifts.length > 0) { 
+                gCon.classList.remove('hidden'); 
+                gSel.innerHTML = '<option value="">-- 請選擇方案贈酒 --</option>' + gifts.map(g => `<option value="${g}">${g}</option>`).join(''); 
+            } else { gCon.classList.add('hidden'); gSel.innerHTML = ""; }
         }
 
-        function toggleBankInput(show) { document.getElementById('bank-input-area').classList.toggle('hidden', !show); }
-        function goToInfo() {
-            if (document.getElementById('display-total').innerText == "0") return alert("請先選擇酒款");
-            document.getElementById('info-section').classList.remove('hidden');
-            document.getElementById('info-section').scrollIntoView({ behavior: 'smooth' });
-            document.getElementById('main-btn').innerText = "確認並送出預購單";
-            document.getElementById('main-btn').onclick = submitOrder;
+        function toggleBankInput(show) { 
+            document.getElementById('bank-input-area').classList.toggle('hidden', !show); 
+        }
+
+        function goToInfo() { 
+            if(document.getElementById('display-total').innerText == "0") return alert("請先選購產品"); 
+            document.getElementById('info-section').classList.remove('hidden'); 
+            document.getElementById('info-section').scrollIntoView({behavior:'smooth'}); 
+            document.getElementById('main-btn').innerText = "確認並提交預購單"; 
+            document.getElementById('main-btn').onclick = submitOrder; 
         }
 
         async function submitOrder() {
-            const name = document.getElementById('custName').value;
-            const phone = document.getElementById('custPhone').value;
-            const addr = document.getElementById('custAddress').value;
+            const name = document.getElementById('custName').value; const phone = document.getElementById('custPhone').value;
+            const addr = document.getElementById('custAddress').value; const pay = document.querySelector('input[name="payMethod"]:checked')?.value;
             const taxId = document.getElementById('custTaxId').value;
-            const payMethod = document.querySelector('input[name="payMethod"]:checked')?.value;
-            const bankLastFive = document.getElementById('bankLastFive').value;
             const gift = document.getElementById('gift-choice').value;
-            const giftHidden = document.getElementById('gift-select-container').classList.contains('hidden');
-            if (!name || !phone || !addr || !payMethod) return alert("請填寫收件資訊並選擇付款方式");
-            if (payMethod === '匯款' && !bankLastFive) return alert("匯款請提供後五碼以便對帳");
-            if (!giftHidden && !gift) return alert("您已達成贈獎資格，請挑選贈酒！");
+            
+            if(!name || !phone || !addr || !pay) return alert("請填寫收件資訊並選擇付款方式");
+            if(pay === '匯款' && !document.getElementById('bankLastFive').value) return alert("請提供匯款帳號後五碼");
+            if(!document.getElementById('gift-select-container').classList.contains('hidden') && !gift) return alert("請領取您的方案贈酒");
+
             const btn = document.getElementById('main-btn');
-            btn.innerText = "訂單上傳中..."; btn.disabled = true;
-            const itemsStr = Object.values(cart).filter(i => i.qty > 0).map(i => `${i.name}x${i.qty}`).join(', ');
-            const data = {
-                customerName: name, customerPhone: phone, address: addr, taxId: taxId,
-                total: document.getElementById('display-total').innerText, 
-                plan: currentPlanFull, gift: gift || "無", itemsDetail: itemsStr,
-                paymentMethod: payMethod, bankLastFive: bankLastFive
+            btn.innerText = "訂單傳送中..."; btn.disabled = true;
+
+            const data = { 
+                customerName: name, customerPhone: phone, address: addr, 
+                taxId: taxId || "無", total: document.getElementById('display-total').innerText, 
+                plan: currentPlanFull, gift: gift || "無", 
+                itemsDetail: Object.values(cart).filter(i => i.qty > 0).map(i => `${i.name}x${i.qty}`).join(','), 
+                paymentMethod: pay, bankLastFive: document.getElementById('bankLastFive').value 
             };
+
             try {
                 await fetch(GOOGLE_SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(data) });
-                document.getElementById('res-name').innerText = name;
-                document.getElementById('res-phone').innerText = phone;
-                document.getElementById('res-address').innerText = addr;
-                document.getElementById('res-payMethod').innerText = payMethod;
-                if(taxId) { document.getElementById('res-tax-area').classList.remove('hidden'); document.getElementById('res-taxId').innerText = taxId; }
-                document.getElementById('res-plan').innerText = currentPlanFull;
-                document.getElementById('res-items').innerText = itemsStr;
-                document.getElementById('res-total').innerText = data.total;
-                if(gift) { document.getElementById('res-gift-area').classList.remove('hidden'); document.getElementById('res-gift').innerText = gift; }
-                if(payMethod !== '匯款') document.getElementById('bank-info-box').classList.add('hidden');
-                document.getElementById('order-page').classList.add('hidden');
+                
+                // 成功明細渲染
+                document.getElementById('receipt-content').innerHTML = `
+                    <div class="flex justify-between border-b pb-2"><span>客戶：</span><span class="font-bold">${name}</span></div>
+                    <div class="flex justify-between border-b pb-2"><span>電話：</span><span class="font-bold">${phone}</span></div>
+                    <div class="flex flex-col border-b pb-2"><span>地址：</span><span class="font-medium text-xs mt-1">${addr}</span></div>
+                    ${taxId ? `<div class="flex justify-between border-b pb-2 text-blue-700"><span>統編：</span><span class="font-bold">${taxId}</span></div>` : ''}
+                    <div class="flex justify-between border-b pb-2"><span>付款：</span><span class="font-bold">${pay}</span></div>
+                    <div class="flex justify-between border-b pb-2 text-red-800"><span>方案：</span><span class="font-bold italic">${currentPlanFull}</span></div>
+                    <div><p class="text-xs text-gray-400 mb-1">明細：</p><p class="text-xs leading-relaxed">${data.itemsDetail.replace(/,/g, '<br>')}</p></div>
+                    ${gift ? `<div class="bg-blue-50 p-2 rounded text-blue-900 font-bold border border-blue-100">🎁 贈品：${gift}</div>` : ''}
+                    <div class="bg-stone-50 p-4 rounded-2xl flex flex-col items-end gap-1 border border-stone-100">
+                        <span class="text-xs text-gray-400">應付總額 (含稅/運費)</span>
+                        <span class="text-2xl font-black text-red-900">$${data.total}</span>
+                    </div>
+                `;
+                document.getElementById('order-page').classList.add('hidden'); 
                 document.getElementById('success-page').classList.remove('hidden');
                 window.scrollTo(0,0);
-            } catch (e) {
-                alert("傳送失敗，請連繫客服");
-                btn.innerText = "確認並送出預購單"; btn.disabled = false;
-            }
+            } catch (e) { alert("連線異常，請聯繫客服提交"); btn.innerText = "再次提交"; btn.disabled = false; }
         }
         switchTab('red');
     </script>
