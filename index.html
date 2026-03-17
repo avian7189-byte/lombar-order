@@ -18,7 +18,7 @@
 
     <div id="order-page" class="max-w-4xl mx-auto px-4 text-gray-800">
         <header class="bg-red-950 text-white p-8 rounded-b-[2.5rem] shadow-xl text-center mb-6">
-            <h1 class="text-2xl md:text-3xl font-black tracking-widest uppercase">TENUTE LOMBARDO</h1>
+            <h1 class="text-2xl md:text-3xl font-black tracking-widest uppercase italic">TENUTE LOMBARDO</h1>
             <p class="text-red-200 text-[10px] mt-2 tracking-[0.2em] opacity-80 uppercase font-light">倫巴杜酒莊 官方預購系統</p>
         </header>
 
@@ -26,6 +26,12 @@
             <button onclick="switchTab('red')" id="tab-red" class="tab-active pb-2 px-1 transition-all text-sm md:text-base">紅葡萄酒</button>
             <button onclick="switchTab('white')" id="tab-white" class="pb-2 px-1 transition-all text-sm md:text-base">白葡萄酒</button>
             <button onclick="switchTab('sparkling')" id="tab-sparkling" class="pb-2 px-1 transition-all text-sm md:text-base">氣泡酒</button>
+        </div>
+
+        <div class="text-center mb-6">
+            <a href="https://drive.google.com/drive/u/0/folders/1keec5-USj4P-4Z4WOIWJjY39y8Uo-Ffx" target="_blank" class="text-xs text-red-800 font-bold underline decoration-red-300 underline-offset-4 hover:text-red-600 transition-colors">
+                查看詳細產品說明與介紹 (Google Drive)
+            </a>
         </div>
 
         <div id="wine-container" class="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6 mb-10"></div>
@@ -42,7 +48,7 @@
             <input type="text" id="custAddress" placeholder="收件地址 (必填)" class="w-full bg-stone-50 p-4 rounded-xl outline-none focus:ring-2 focus:ring-red-800/20 mb-4">
             
             <div class="bg-blue-50 p-4 rounded-2xl mb-6 border border-blue-100">
-                <p class="text-blue-800 text-[10px] font-bold mb-2 italic tracking-tighter">※ 若有填寫統編/抬頭，總金額將自動加計 5% 營業稅。</p>
+                <p class="text-blue-800 text-[10px] font-bold mb-2 italic tracking-tighter">※ 若填寫統編/抬頭，總金額將自動加計 5% 營業稅。</p>
                 <input type="text" id="custTaxId" oninput="calculate()" placeholder="公司統編 / 抬頭 (選填)" class="w-full bg-white p-4 rounded-xl outline-none border border-blue-200 focus:ring-2 focus:ring-blue-400">
             </div>
             
@@ -61,16 +67,13 @@
                 </div>
 
                 <div class="bg-red-50 p-5 rounded-2xl border border-red-100 mt-4">
-                    <p class="font-bold text-red-900 text-sm mb-2 uppercase tracking-wider flex items-center gap-2">
-                        🏦 匯款帳戶資訊
-                    </p>
+                    <p class="font-bold text-red-900 text-sm mb-2 uppercase tracking-wider">🏦 匯款帳戶資訊</p>
                     <div class="text-[12px] leading-relaxed text-red-800 space-y-1">
-                        <p>銀行：玉山銀行 (808) 仁德分行</p>
-                        <p>戶名：有集貿易有限公司</p>
+                        <p>銀行：玉山銀行 (808) 仁德分行 | 戶名：有集貿易有限公司</p>
                         <p>帳號：<span class="font-bold select-all">1137-940-267329</span></p>
                     </div>
                     <div id="bank-input-area" class="hidden mt-4 pt-4 border-t border-red-200">
-                        <input type="text" id="bankLastFive" placeholder="請輸入匯款帳號後五碼" class="w-full bg-white p-4 rounded-xl outline-none border border-red-200 focus:ring-2 focus:ring-red-400">
+                        <input type="text" id="bankLastFive" placeholder="請輸入匯款帳號後五碼" class="w-full bg-white p-4 rounded-xl outline-none border border-red-200">
                     </div>
                 </div>
             </div>
@@ -78,8 +81,12 @@
 
         <div class="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-gray-100 p-4 pb-10 lg:pb-6 z-50 shadow-[0_-10px_20px_rgba(0,0,0,0.05)]">
             <div class="max-w-4xl mx-auto">
-                <div id="gift-select-container" class="hidden mb-3 w-full">
-                    <select id="gift-choice" class="w-full border-2 border-red-100 rounded-lg p-2 text-xs bg-white font-bold text-red-900"></select>
+                <div id="gift-select-container" class="hidden mb-3 w-full animate-bounce">
+                    <div class="bg-red-100 p-2 rounded-xl border border-red-300">
+                        <p class="text-[10px] text-red-800 font-bold mb-1 ml-1 uppercase">🎁 恭喜達成方案！請選擇贈酒：</p>
+                        <select id="gift-choice" class="w-full border-none rounded-lg p-2 text-xs bg-white font-bold text-red-900 focus:ring-1 focus:ring-red-800">
+                        </select>
+                    </div>
                 </div>
                 <div class="flex items-center justify-between gap-4">
                     <div class="flex-1">
@@ -90,7 +97,7 @@
                         <div class="flex flex-col">
                             <div class="flex items-baseline gap-1">
                                 <p class="text-2xl font-black text-red-900 leading-none">$<span id="display-total">0</span></p>
-                                <p class="text-[10px] text-gray-400 font-medium">共 <span id="total-qty" class="text-red-800 font-bold">0</span> 瓶</p>
+                                <p class="text-[10px] text-gray-400 font-medium tracking-tight">共 <span id="total-qty" class="text-red-800 font-bold">0</span> 瓶</p>
                             </div>
                             <div class="flex gap-2 mt-1">
                                 <p id="tax-note" class="hidden text-[9px] text-blue-600 font-bold tracking-tighter italic">已含5%稅</p>
@@ -107,13 +114,14 @@
     <div id="success-page" class="hidden fixed inset-0 bg-stone-100 z-[100] overflow-y-auto p-4">
         <div class="max-w-md mx-auto my-6 bg-white rounded-3xl shadow-2xl overflow-hidden border-2 border-red-900">
             <div class="bg-red-950 text-white p-6 text-center">
-                <h2 class="text-2xl font-black tracking-widest uppercase italic">Order Summary</h2>
-                <p class="text-xs text-red-200 mt-1 uppercase">訂購明細</p>
+                <h2 class="text-2xl font-black tracking-widest uppercase italic italic">Order Confirmation</h2>
+                <p class="text-xs text-red-200 mt-1 uppercase tracking-widest">訂購明細</p>
             </div>
-            <div id="receipt-content" class="p-6 space-y-4 text-sm text-gray-800"></div>
+            <div id="receipt-content" class="p-6 space-y-4 text-[13px] text-gray-800">
+                </div>
         </div>
         <div class="text-center mt-6 pb-10">
-            <button onclick="location.reload()" class="bg-gray-800 text-white px-8 py-3 rounded-full font-bold">建立新訂單</button>
+            <button onclick="location.reload()" class="bg-gray-800 text-white px-8 py-3 rounded-full font-bold shadow-lg">建立新訂單</button>
         </div>
     </div>
 
@@ -157,7 +165,7 @@
             const container = document.getElementById('wine-container');
             container.innerHTML = WINES[type].map(wine => `
                 <div class="wine-card bg-white rounded-[2rem] p-3 flex flex-col shadow-sm border border-stone-50">
-                    <div class="w-full h-32 md:h-48 mb-3 bg-white flex items-center justify-center overflow-hidden rounded-2xl">
+                    <div class="w-full h-32 md:h-48 mb-3 bg-white flex items-center justify-center overflow-hidden rounded-xl">
                         ${wine.img ? `<img src="${wine.img}" class="max-h-full max-w-full object-contain">` : `<span class="text-3xl grayscale opacity-20">🍷</span>`}
                     </div>
                     <h3 class="font-bold text-gray-800 text-[11px] md:text-xs mb-3 h-8 overflow-hidden leading-tight italic uppercase tracking-tighter">${wine.name}</h3>
@@ -187,25 +195,21 @@
 
             let plan = 'A'; let disc = 0.9; let text = "享 9 折優惠"; let ship = 300; let gifts = [];
             
-            // 運費與折扣邏輯
-            if(totalQty >= 6) { plan = 'D'; disc = 0.8; text = "全單 8 折 (免運)"; ship = 0; gifts = GIFT_OPTIONS; }
-            else if(highQty >= 3) { plan = 'C'; disc = 0.85; text = "高價滿 3 瓶 8.5 折 (免運)"; ship = 0; gifts = ["特選紅酒 (一瓶)", "特選白酒 (一瓶)"]; }
-            else if(lowQty >= 3) { plan = 'B'; disc = 0.85; text = "平價滿 3 瓶 8.5 折 (免運)"; ship = 0; }
+            if(totalQty >= 6) { plan = 'D'; disc = 0.8; text = "全單 8 折 (滿 6 瓶)"; ship = 0; gifts = GIFT_OPTIONS; }
+            else if(highQty >= 3) { plan = 'C'; disc = 0.85; text = "高價滿 3 瓶 8.5 折"; ship = 0; gifts = ["特選紅酒 (高價滿額贈)", "特選白酒 (高價滿額贈)"]; }
+            else if(lowQty >= 3) { plan = 'B'; disc = 0.85; text = "平價滿 3 瓶 8.5 折"; ship = 0; }
             else { 
-                plan = 'A'; disc = 0.9; 
-                // 兩瓶以下收 300 運費
                 ship = (totalQty > 0 && totalQty <= 2) ? 300 : 0; 
-                text = (totalQty <= 2) ? "2 瓶以下加運費 300" : "享 9 折優惠";
+                text = (totalQty <= 2) ? "2 瓶以下加收運費 300" : "享 9 折優惠";
             }
 
             currentPlanFull = "方案 " + plan + " (" + text + ")";
             let subtotal = totalQty > 0 ? Math.round(rawPrice * disc) + ship : 0;
             
             const taxInput = document.getElementById('custTaxId').value;
-            let isTaxed = taxInput && taxInput.trim() !== "";
-            let finalTotal = isTaxed ? Math.round(subtotal * 1.05) : subtotal;
+            let finalTotal = (taxInput && taxInput.trim() !== "" && subtotal > 0) ? Math.round(subtotal * 1.05) : subtotal;
             
-            document.getElementById('tax-note').classList.toggle('hidden', !isTaxed);
+            document.getElementById('tax-note').classList.toggle('hidden', !(taxInput && taxInput.trim() !== ""));
             document.getElementById('ship-note').innerText = (ship > 0) ? `含運費$300 (冷藏配送)` : `全程冷藏配送 (免運費)`;
             document.getElementById('display-plan-label').innerText = "方案 " + plan;
             document.getElementById('display-discount-label').innerText = text;
@@ -216,11 +220,12 @@
             const gSel = document.getElementById('gift-choice');
             if(gifts.length > 0) { 
                 gCon.classList.remove('hidden'); 
-                gSel.innerHTML = '<option value="">-- 請選擇方案贈酒 --</option>' + gifts.map(g => `<option value="${g}">${g}</option>`).join(''); 
+                if(gSel.innerHTML === "") gSel.innerHTML = '<option value="">-- 請選擇您的方案贈酒 --</option>' + gifts.map(g => `<option value="${g}">${g}</option>`).join(''); 
             } else { gCon.classList.add('hidden'); gSel.innerHTML = ""; }
         }
 
         function toggleBankInput(show) { document.getElementById('bank-input-area').classList.toggle('hidden', !show); }
+        
         function goToInfo() { 
             if(document.getElementById('display-total').innerText == "0") return alert("請先選購產品"); 
             document.getElementById('info-section').classList.remove('hidden'); 
@@ -234,31 +239,50 @@
             const addr = document.getElementById('custAddress').value; const pay = document.querySelector('input[name="payMethod"]:checked')?.value;
             const taxId = document.getElementById('custTaxId').value;
             const gift = document.getElementById('gift-choice').value;
+            const giftNeeded = !document.getElementById('gift-select-container').classList.contains('hidden');
             
-            if(!name || !phone || !addr || !pay) return alert("請填寫收件資訊");
-            if(pay === '匯款' && !document.getElementById('bankLastFive').value) return alert("請填寫匯款後五碼");
+            if(!name || !phone || !addr || !pay) return alert("請完整填寫收件資訊與付款方式");
+            if(pay === '匯款' && !document.getElementById('bankLastFive').value) return alert("匯款請提供後五碼");
+            if(giftNeeded && !gift) return alert("您已獲得贈酒資格，請務必挑選一支贈品！");
 
             const btn = document.getElementById('main-btn');
-            btn.innerText = "提交中..."; btn.disabled = true;
+            btn.innerText = "上傳中..."; btn.disabled = true;
 
+            const itemsStr = Object.values(cart).filter(i => i.qty > 0).map(i => `${i.name}x${i.qty}`).join(',');
             const data = { 
                 customerName: name, customerPhone: phone, address: addr, taxId: taxId || "無", 
                 total: document.getElementById('display-total').innerText, 
                 plan: currentPlanFull, gift: gift || "無", 
-                itemsDetail: Object.values(cart).filter(i => i.qty > 0).map(i => `${i.name}x${i.qty}`).join(','), 
+                itemsDetail: itemsStr, 
                 paymentMethod: pay, bankLastFive: document.getElementById('bankLastFive').value 
             };
 
             try {
                 await fetch(GOOGLE_SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(data) });
+                
+                // 渲染完整成功明細
                 document.getElementById('receipt-content').innerHTML = `
-                    <p>客戶：${name}</p><p>付款：${pay}</p><p>金額：$${data.total}</p>
-                    <p class="text-xs text-red-700 mt-2 font-bold">${currentPlanFull}</p>
-                    <p class="text-xs mt-2 border-t pt-2">${data.itemsDetail.replace(/,/g, '<br>')}</p>
+                    <div class="flex justify-between border-b pb-2"><span>客戶姓名：</span><span class="font-bold">${name}</span></div>
+                    <div class="flex justify-between border-b pb-2"><span>聯絡電話：</span><span class="font-bold">${phone}</span></div>
+                    <div class="flex flex-col border-b pb-2"><span>收件地址：</span><span class="font-medium text-xs mt-1">${addr}</span></div>
+                    ${taxId ? `<div class="flex justify-between border-b pb-2 text-blue-700"><span>統編抬頭：</span><span class="font-bold">${taxId}</span></div>` : ''}
+                    <div class="flex justify-between border-b pb-2"><span>付款方式：</span><span class="font-bold">${pay}</span></div>
+                    <div class="flex justify-between border-b pb-2 text-red-800"><span>適用方案：</span><span class="font-bold italic">${currentPlanFull}</span></div>
+                    <div class="py-2 border-b">
+                        <p class="text-xs text-gray-400 mb-1 tracking-widest uppercase">購買產品明細：</p>
+                        <p class="text-xs leading-relaxed font-bold">${itemsStr.replace(/,/g, '<br>')}</p>
+                    </div>
+                    ${gift ? `<div class="bg-blue-50 p-3 rounded-xl border border-blue-200 text-blue-900 font-bold">🎁 方案贈好禮：<br>${gift}</div>` : ''}
+                    <div class="bg-stone-50 p-4 rounded-2xl flex flex-col items-end border border-stone-200">
+                        <span class="text-xs text-gray-400 uppercase">Total Amount</span>
+                        <span class="text-2xl font-black text-red-900">$${data.total}</span>
+                    </div>
+                    <div class="text-[10px] text-gray-400 text-center italic tracking-widest mt-2">感謝您的預購，我們將盡快安排冷藏配送。</div>
                 `;
                 document.getElementById('order-page').classList.add('hidden'); 
                 document.getElementById('success-page').classList.remove('hidden');
-            } catch (e) { alert("提交失敗"); btn.disabled = false; }
+                window.scrollTo(0,0);
+            } catch (e) { alert("傳送失敗"); btn.disabled = false; }
         }
         switchTab('red');
     </script>
