@@ -67,7 +67,7 @@
                     <div class="text-[12px] leading-relaxed text-red-800 space-y-1">
                         <p>銀行：玉山銀行 (808) 仁德分行</p>
                         <p>戶名：有集貿易有限公司</p>
-                        <p>帳號：<span class="font-bold select-all">1137940267329</span></p>
+                        <p>帳號：<span class="font-bold select-all">1137-940-267329</span></p>
                     </div>
                     <div id="bank-input-area" class="hidden mt-4 pt-4 border-t border-red-200">
                         <input type="text" id="bankLastFive" placeholder="請輸入匯款帳號後五碼" class="w-full bg-white p-4 rounded-xl outline-none border border-red-200 focus:ring-2 focus:ring-red-400">
@@ -92,7 +92,10 @@
                                 <p class="text-2xl font-black text-red-900 leading-none">$<span id="display-total">0</span></p>
                                 <p class="text-[10px] text-gray-400 font-medium">共 <span id="total-qty" class="text-red-800 font-bold">0</span> 瓶</p>
                             </div>
-                            <p id="tax-note" class="hidden text-[9px] text-blue-600 font-bold mt-1 tracking-tighter italic">已含 5% 營業稅</p>
+                            <div class="flex gap-2 mt-1">
+                                <p id="tax-note" class="hidden text-[9px] text-blue-600 font-bold tracking-tighter italic">已含5%稅</p>
+                                <p id="ship-note" class="text-[9px] text-green-700 font-bold tracking-tighter italic">全程冷藏配送</p>
+                            </div>
                         </div>
                     </div>
                     <button onclick="goToInfo()" id="main-btn" class="flex-1 max-w-[160px] bg-red-800 text-white py-4 rounded-xl font-bold text-base shadow-lg active:scale-95 transition-all">下一步</button>
@@ -107,8 +110,7 @@
                 <h2 class="text-2xl font-black tracking-widest uppercase italic">Order Summary</h2>
                 <p class="text-xs text-red-200 mt-1 uppercase">訂購明細</p>
             </div>
-            <div id="receipt-content" class="p-6 space-y-4 text-sm text-gray-800">
-                </div>
+            <div id="receipt-content" class="p-6 space-y-4 text-sm text-gray-800"></div>
         </div>
         <div class="text-center mt-6 pb-10">
             <button onclick="location.reload()" class="bg-gray-800 text-white px-8 py-3 rounded-full font-bold">建立新訂單</button>
@@ -120,7 +122,7 @@
 
         const WINES = {
             red: [
-                 { id: 'r1', name: "尼祿 高地黑魂 NERO D’ALTURA (750ml)", price: 1200, img: "https://lh3.googleusercontent.com/d/1DioZpo8wGeVkTB2DpZV0n01refIXGFlz" },
+                { id: 'r1', name: "尼祿 高地黑魂 NERO D’ALTURA (750ml)", price: 1200, img: "https://lh3.googleusercontent.com/d/1DioZpo8wGeVkTB2DpZV0n01refIXGFlz" },
                 { id: 'r2', name: "尼祿 高地黑魂 NERO D’ALTURA (1500ml)", price: 3600, img: "https://lh3.googleusercontent.com/d/1DioZpo8wGeVkTB2DpZV0n01refIXGFlz" },
                 { id: 'r3', name: "芙歐蕾 玫瑰黑織 FIORE DI NERO (750ml)", price: 980, img: "https://lh3.googleusercontent.com/d/1LfEH9Dn2JoaoFvH5xppT3pS4U4oaEmoR" },
                 { id: 'r4', name: "三韻之丹 UNÀNIME ROSSO (750ml)", price: 980, img: "https://lh3.googleusercontent.com/d/1_isAdBhpUM3aGydWqaiQwUv69MXk7Ox4"  },
@@ -141,14 +143,11 @@
                 { id: 's4', name: "蘇阿爾特札・空玫 ROSÉ (1500ml)", price: 3600, img: "https://lh3.googleusercontent.com/d/16Dt1ZSjLKnTNoVdrh0CA-KimgmBvN2PR" },
                 { id: 's5', name: "達圖拉 高地極釀 D’ALTURA (750ml)", price: 3600, img: "https://lh3.googleusercontent.com/d/1m_akdnqdD5mZ9Jk7fzFPZTEz1LUyUrMg" }
 
+
             ]
         };
 
-        const GIFT_OPTIONS = [
-            "尼祿 高地黑魂 (750ml) (方案贈酒)", "芙歐蕾 玫瑰黑織 (750ml)", "三韻之丹 (750ml)", 
-            "卡塔拉托 柑香白影 (750ml)", "格里洛 海風芬馥 (750ml)", "三韻之翡 (750ml)", 
-            "蘇阿爾特札・空光 (750ml)", "蘇阿爾特札・空玫 ROSÉ (750ml)"
-        ];
+        const GIFT_OPTIONS = ["尼祿 高地黑魂 (750ml)", "芙歐蕾 玫瑰黑織 (750ml)", "三韻之丹 (750ml)", "卡塔拉托 柑香白影 (750ml)", "格里洛 海風芬馥 (750ml)", "三韻之翡 (750ml)", "蘇阿爾特札・空光 (750ml)", "蘇阿爾特札・空玫 ROSÉ (750ml)"];
 
         let cart = {}; let currentPlanFull = "";
 
@@ -165,9 +164,9 @@
                     <div class="flex items-center justify-between mt-auto">
                         <p class="text-red-900 font-black text-sm md:text-lg">$${wine.price}</p>
                         <div class="flex items-center space-x-2">
-                            <button onclick="updateQty('${wine.id}', -1, ${wine.price}, '${wine.name}')" class="w-7 h-7 rounded-lg bg-stone-100 font-bold hover:bg-stone-200 transition">-</button>
+                            <button onclick="updateQty('${wine.id}', -1, ${wine.price}, '${wine.name}')" class="w-7 h-7 rounded-lg bg-stone-100 font-bold">-</button>
                             <span id="qty-${wine.id}" class="font-bold text-xs w-4 text-center">${cart[wine.id]?.qty || 0}</span>
-                            <button onclick="updateQty('${wine.id}', 1, ${wine.price}, '${wine.name}')" class="w-7 h-7 rounded-lg bg-red-800 text-white font-bold hover:bg-red-900 shadow-md transition">+</button>
+                            <button onclick="updateQty('${wine.id}', 1, ${wine.price}, '${wine.name}')" class="w-7 h-7 rounded-lg bg-red-800 text-white font-bold">+</button>
                         </div>
                     </div>
                 </div>
@@ -186,20 +185,28 @@
             let lowQty = 0; let highQty = 0;
             items.forEach(i => { totalQty += i.qty; rawPrice += (i.qty * i.price); if(i.price <= 2880) lowQty += i.qty; if(i.price >= 3600) highQty += i.qty; });
 
-            let plan = 'A'; let disc = 0.9; let text = "享 9 折優惠"; let ship = 150; let gifts = [];
-            if(totalQty >= 6) { plan = 'D'; disc = 0.8; text = "全單 8 折 (滿 6 瓶)"; ship = 0; gifts = GIFT_OPTIONS; }
-            else if(highQty >= 3) { plan = 'C'; disc = 0.85; text = "高價滿 3 瓶 8.5 折"; ship = 0; gifts = ["特選紅酒 (一瓶)", "特選白酒 (一瓶)"]; }
-            else if(lowQty >= 3) { plan = 'B'; disc = 0.85; text = "平價滿 3 瓶 8.5 折"; ship = 0; }
+            let plan = 'A'; let disc = 0.9; let text = "享 9 折優惠"; let ship = 300; let gifts = [];
+            
+            // 運費與折扣邏輯
+            if(totalQty >= 6) { plan = 'D'; disc = 0.8; text = "全單 8 折 (免運)"; ship = 0; gifts = GIFT_OPTIONS; }
+            else if(highQty >= 3) { plan = 'C'; disc = 0.85; text = "高價滿 3 瓶 8.5 折 (免運)"; ship = 0; gifts = ["特選紅酒 (一瓶)", "特選白酒 (一瓶)"]; }
+            else if(lowQty >= 3) { plan = 'B'; disc = 0.85; text = "平價滿 3 瓶 8.5 折 (免運)"; ship = 0; }
+            else { 
+                plan = 'A'; disc = 0.9; 
+                // 兩瓶以下收 300 運費
+                ship = (totalQty > 0 && totalQty <= 2) ? 300 : 0; 
+                text = (totalQty <= 2) ? "2 瓶以下加運費 300" : "享 9 折優惠";
+            }
 
             currentPlanFull = "方案 " + plan + " (" + text + ")";
-            let subtotal = totalQty > 0 ? Math.round(rawPrice * disc) + (plan === 'A' ? ship : 0) : 0;
+            let subtotal = totalQty > 0 ? Math.round(rawPrice * disc) + ship : 0;
             
-            // 稅金判斷
             const taxInput = document.getElementById('custTaxId').value;
             let isTaxed = taxInput && taxInput.trim() !== "";
             let finalTotal = isTaxed ? Math.round(subtotal * 1.05) : subtotal;
             
             document.getElementById('tax-note').classList.toggle('hidden', !isTaxed);
+            document.getElementById('ship-note').innerText = (ship > 0) ? `含運費$300 (冷藏配送)` : `全程冷藏配送 (免運費)`;
             document.getElementById('display-plan-label').innerText = "方案 " + plan;
             document.getElementById('display-discount-label').innerText = text;
             document.getElementById('total-qty').innerText = totalQty;
@@ -213,10 +220,7 @@
             } else { gCon.classList.add('hidden'); gSel.innerHTML = ""; }
         }
 
-        function toggleBankInput(show) { 
-            document.getElementById('bank-input-area').classList.toggle('hidden', !show); 
-        }
-
+        function toggleBankInput(show) { document.getElementById('bank-input-area').classList.toggle('hidden', !show); }
         function goToInfo() { 
             if(document.getElementById('display-total').innerText == "0") return alert("請先選購產品"); 
             document.getElementById('info-section').classList.remove('hidden'); 
@@ -231,16 +235,15 @@
             const taxId = document.getElementById('custTaxId').value;
             const gift = document.getElementById('gift-choice').value;
             
-            if(!name || !phone || !addr || !pay) return alert("請填寫收件資訊並選擇付款方式");
-            if(pay === '匯款' && !document.getElementById('bankLastFive').value) return alert("請提供匯款帳號後五碼");
-            if(!document.getElementById('gift-select-container').classList.contains('hidden') && !gift) return alert("請領取您的方案贈酒");
+            if(!name || !phone || !addr || !pay) return alert("請填寫收件資訊");
+            if(pay === '匯款' && !document.getElementById('bankLastFive').value) return alert("請填寫匯款後五碼");
 
             const btn = document.getElementById('main-btn');
-            btn.innerText = "訂單傳送中..."; btn.disabled = true;
+            btn.innerText = "提交中..."; btn.disabled = true;
 
             const data = { 
-                customerName: name, customerPhone: phone, address: addr, 
-                taxId: taxId || "無", total: document.getElementById('display-total').innerText, 
+                customerName: name, customerPhone: phone, address: addr, taxId: taxId || "無", 
+                total: document.getElementById('display-total').innerText, 
                 plan: currentPlanFull, gift: gift || "無", 
                 itemsDetail: Object.values(cart).filter(i => i.qty > 0).map(i => `${i.name}x${i.qty}`).join(','), 
                 paymentMethod: pay, bankLastFive: document.getElementById('bankLastFive').value 
@@ -248,26 +251,14 @@
 
             try {
                 await fetch(GOOGLE_SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(data) });
-                
-                // 成功明細渲染
                 document.getElementById('receipt-content').innerHTML = `
-                    <div class="flex justify-between border-b pb-2"><span>客戶：</span><span class="font-bold">${name}</span></div>
-                    <div class="flex justify-between border-b pb-2"><span>電話：</span><span class="font-bold">${phone}</span></div>
-                    <div class="flex flex-col border-b pb-2"><span>地址：</span><span class="font-medium text-xs mt-1">${addr}</span></div>
-                    ${taxId ? `<div class="flex justify-between border-b pb-2 text-blue-700"><span>統編：</span><span class="font-bold">${taxId}</span></div>` : ''}
-                    <div class="flex justify-between border-b pb-2"><span>付款：</span><span class="font-bold">${pay}</span></div>
-                    <div class="flex justify-between border-b pb-2 text-red-800"><span>方案：</span><span class="font-bold italic">${currentPlanFull}</span></div>
-                    <div><p class="text-xs text-gray-400 mb-1">明細：</p><p class="text-xs leading-relaxed">${data.itemsDetail.replace(/,/g, '<br>')}</p></div>
-                    ${gift ? `<div class="bg-blue-50 p-2 rounded text-blue-900 font-bold border border-blue-100">🎁 贈品：${gift}</div>` : ''}
-                    <div class="bg-stone-50 p-4 rounded-2xl flex flex-col items-end gap-1 border border-stone-100">
-                        <span class="text-xs text-gray-400">應付總額 (含稅/運費)</span>
-                        <span class="text-2xl font-black text-red-900">$${data.total}</span>
-                    </div>
+                    <p>客戶：${name}</p><p>付款：${pay}</p><p>金額：$${data.total}</p>
+                    <p class="text-xs text-red-700 mt-2 font-bold">${currentPlanFull}</p>
+                    <p class="text-xs mt-2 border-t pt-2">${data.itemsDetail.replace(/,/g, '<br>')}</p>
                 `;
                 document.getElementById('order-page').classList.add('hidden'); 
                 document.getElementById('success-page').classList.remove('hidden');
-                window.scrollTo(0,0);
-            } catch (e) { alert("連線異常，請聯繫客服提交"); btn.innerText = "再次提交"; btn.disabled = false; }
+            } catch (e) { alert("提交失敗"); btn.disabled = false; }
         }
         switchTab('red');
     </script>
