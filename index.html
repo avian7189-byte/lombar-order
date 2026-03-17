@@ -196,7 +196,7 @@
             let plan = 'A'; let disc = 0.9; let text = "享 9 折優惠"; let ship = 300; let gifts = [];
             
             if(totalQty >= 6) { plan = 'D'; disc = 0.8; text = "全單 8 折 (滿 6 瓶)"; ship = 0; gifts = GIFT_OPTIONS; }
-            else if(highQty >= 3) { plan = 'C'; disc = 0.85; text = "高價滿 3 瓶 8.5 折"; ship = 0; gifts = ["特選紅酒 (高價滿額贈)", "特選白酒 (高價滿額贈)"]; }
+            else if(highQty >= 3) { plan = 'C'; disc = 0.85; text = "高價滿 3 瓶 8.5 折"; ship = 0; gifts = ["特選紅酒 (高價滿額贈)牧神潘 秘露 PASSADINERO (500ml)", "特選白酒 (高價滿額贈)本是 ESTÌ (750ml)"]; }
             else if(lowQty >= 3) { plan = 'B'; disc = 0.85; text = "平價滿 3 瓶 8.5 折"; ship = 0; }
             else { 
                 ship = (totalQty > 0 && totalQty <= 2) ? 300 : 0; 
